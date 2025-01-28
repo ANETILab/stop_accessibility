@@ -17,6 +17,14 @@ The dependencies are managed with [poetry](https://python-poetry.org/).
 poetry lock && poetry install
 ```
 
+## OSM source
+
+Geofabrik, with the smallest possible unit:
+
+- [Madrid](https://download.geofabrik.de/europe/spain/madrid.html)
+- [Paris](https://download.geofabrik.de/europe/france/ile-de-france.html)
+- [Rotterdam](https://download.geofabrik.de/europe/netherlands/zuid-holland.html)
+
 ## output schema
 
 - geometries are in EPSG:4326 projection
