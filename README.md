@@ -19,6 +19,9 @@ poetry lock && poetry install
 
 ## output schema
 
+- geometries are in EPSG:4326 projection
+- range is in minute
+
 |   stop_id | geometry                                                    | costing |   range |
 |----------:|:------------------------------------------------------------|:--------|--------:|
 |    008951 | POLYGON ((19.218675 47.433216, [...], 19.218675 47.433216)) | walk    |       5 |
@@ -28,10 +31,7 @@ poetry lock && poetry install
 |    008951 | POLYGON ((19.215675 47.449231, [...], 19.215675 47.449231)) | bicycle |      10 |
 |    008951 | POLYGON ((19.210675 47.456055, [...], 19.210675 47.456055)) | bicycle |      15 |
 
-NB: geometries are shortened
-
-- geometries are in EPSG:4326 projection
-- range is in minute
+NB: geometries are shortened in the sample above, consequently not valid
 
 
 ## caveats
