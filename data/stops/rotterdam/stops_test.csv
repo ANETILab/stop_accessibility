@@ -1,0 +1,2 @@
+stop_id,stop_name,stop_lat,stop_lon,stop_code,location_type,parent_station,wheelchair_boarding,stop_direction,clust,max_distance,quant
+007357,Stadhuis,51.9234499,4.4779391,,,007357,2.0,-64.0,11,0.0,1
