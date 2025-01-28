@@ -1,2 +1,2 @@
 stop_id,stop_name,stop_lat,stop_lon,stop_code,location_type,parent_station,wheelchair_boarding,stop_direction,clust,max_distance,quant
-007357,Puerta de Toledo,48.858371,2.2944782,,,007357,2.0,-64.0,11,0.0,1
+007357,Tour Eiffel,48.858371,2.2944782,,,007357,2.0,-64.0,11,0.0,1
