@@ -1,0 +1,42 @@
+{
+    "title": "Kanban",
+    "cols": [
+        {
+            "title": "Backlog",
+            "tasks": [
+                {
+                    "text": "get stops from OSM file",
+                    "id": "cm6g92ljv000b3w6cdyhtace3"
+                }
+            ],
+            "id": "cm6g92ljv000a3w6canzlsbqs",
+            "color": "#6a6a6a"
+        },
+        {
+            "title": "To-Do",
+            "tasks": [],
+            "id": "cm6g92ljv000c3w6cag18djg0",
+            "color": "#fcb900"
+        },
+        {
+            "title": "Doing",
+            "tasks": [],
+            "id": "cm6g92ljv000d3w6cx7go4wnt",
+            "color": "#0693e3"
+        },
+        {
+            "title": "Done",
+            "tasks": [
+                {
+                    "text": "determine 5, 10, 15 minute accessibility - from GTFS network stops\n- [x] walk\n- [x] bicycle",
+                    "id": "cm6g93jw0000f3w6c8vtrgc9o"
+                }
+            ],
+            "id": "cm6g92ljv000e3w6cf6756uux",
+            "color": "#00d084"
+        }
+    ],
+    "autosave": true,
+    "saveToFile": true,
+    "timestamp": 1738055095558
+}
