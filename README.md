@@ -21,6 +21,7 @@ poetry lock && poetry install
 
 - geometries are in EPSG:4326 projection
 - range is in minute
+- the isochrones are also available in GeoJSON format
 
 |   stop_id | geometry                                                    | costing |   range |
 |----------:|:------------------------------------------------------------|:--------|--------:|
