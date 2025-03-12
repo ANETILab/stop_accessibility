@@ -1,6 +1,6 @@
 __pycache__/
 cache/
-output/
+output/*
 
 .vscode/*
 !.vscode/kanban.json
