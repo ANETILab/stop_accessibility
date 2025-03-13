@@ -43,6 +43,15 @@ Geofabrik, with the smallest possible unit:
 NB: geometries are shortened in the sample above, consequently not valid
 
 
+### get city boundaries
+
+```
+ruby filter.rb --city budapest --name Budapest --pbf hungary-20250123.osm.pbf --delete-intermediate
+ruby filter.rb --city madrid --name Madrid --pbf madrid-latest.osm.pbf --delete-intermediate
+ruby filter.rb --city rotterdam --name Rotterdam --pbf zuid-holland-latest.osm.pbf --delete-intermediate
+ruby filter.rb --city paris --name Paris --pbf ile-de-france-latest.osm.pbf --delete-intermediate
+```
+
 ## caveats
 
 The Budapest isochrones are calculated with an old, 2023 September OSM snapshot.
