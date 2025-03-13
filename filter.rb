@@ -18,7 +18,13 @@ OptionParser.new do |opts|
     end
 end.parse!
 
-%x(osmium tags-filter -o output/#{options[:city]}/admin.xml data/osm/#{city}/#{options[:pbf]} r/boundary=administrative --overwrite)
+%x(osmium tags-filter -o output/#{options[:city]}/admin.xml data/osm/#{options[:city]}/#{options[:pbf]} r/boundary=administrative --overwrite)
 %x(osmium tags-filter -o output/#{options[:city]}/admin_8.xml output/#{options[:city]}/admin.xml r/admin_level=8 --overwrite)
 %x(osmium tags-filter -o output/#{options[:city]}/boundary.xml output/#{options[:city]}/admin_8.xml r/name=#{options[:name]} -t --overwrite)
 %x(osmium export output/#{options[:city]}/boundary.xml -o output/#{options[:city]}/boundary.geojson -f geojson --attributes type,id --overwrite)
+
+if options[:delete_intermediate]
+    File.delete "output/#{options[:city]}/admin.xml"
+    File.delete "output/#{options[:city]}/admin_8.xml"
+    File.delete "output/#{options[:city]}/boundary.xml"
+end
