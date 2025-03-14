@@ -25,9 +25,10 @@ Geofabrik, with the smallest possible unit:
 - [Paris](https://download.geofabrik.de/europe/france/ile-de-france.html)
 - [Rotterdam](https://download.geofabrik.de/europe/netherlands/zuid-holland.html)
 
-## output schema
+## accessibility area output schema
 
 - geometries are in EPSG:4326 projection
+- costing denotes whether the area is calculated by walking (walk) or biking (bicycle)
 - range is in minute
 - the isochrones are also available in GeoJSON format
 
@@ -43,7 +44,7 @@ Geofabrik, with the smallest possible unit:
 NB: geometries are shortened in the sample above, consequently not valid
 
 
-### get city boundaries
+## get city boundaries
 
 ```
 ruby filter.rb --city budapest --name Budapest --pbf hungary-20250123.osm.pbf --delete-intermediate
@@ -51,6 +52,35 @@ ruby filter.rb --city madrid --name Madrid --pbf madrid-latest.osm.pbf --delete-
 ruby filter.rb --city rotterdam --name Rotterdam --pbf zuid-holland-latest.osm.pbf --delete-intermediate
 ruby filter.rb --city paris --name Paris --pbf ile-de-france-latest.osm.pbf --delete-intermediate
 ```
+
+## calculate stop distance from the city center
+
+- distance is simply the Euclidean distance in a meter based projection
+    - the projections are stored in the [`data/crs.yaml`](data/crs.yaml)
+
+The city center can be defined multiple ways.
+The centroid of the city geometry can be considered as the center, but could raise problems if the city shape in concave (e.g., Rotterdam).
+Not aiming for a universal solution, the centroid of the residential areas (filtering from OSM by the [landuse key](https://wiki.openstreetmap.org/wiki/Key:landuse)) could solve the problem, at least in the case of Rotterdam, because the western part is industrial area only.
+
+Another option is to use the [GTFS](https://en.wikipedia.org/wiki/GTFS) networks and select the largest [betweenness centrality](https://en.wikipedia.org/wiki/Betweenness_centrality).
+However, as the network uses a clustering, the centrality value will be the same for multiple stops (of a cluster), which provides multiple stop instead of a single point.
+
+There are two possible ways to determine the center of the cluster, representing the city center: using the centroid (left) or the medoid (right) of the cluster points.
+Centroid defines a new, "virtual" stop, while medoid is an existing stop.
+In the example below the difference is marginal, a couple of meters only, so it has no significant effect to the outcome.
+Still, bow of them is provided.
+
+<img src=".github/fovam_stop_centroid.png" alt="centroid" width="250">
+<img src=".github/fovam_stop_medoid.png" alt="medoid" width="250">
+
+ <!-- <figure>
+    <img src=".github/fovam_stop_centroid.png" alt="centroid" width="250">
+    <figcaption>centroid</figcaption>
+</figure>
+ <figure>
+    <img src=".github/fovam_stop_medoid.png" alt="medoid" width="250">
+    <figcaption>medoid</figcaption>
+</figure> -->
 
 ## caveats
 
