@@ -1,0 +1,23 @@
+formats:
+    - png
+metadata:
+    png:
+        Author: "Gergő Pintér"
+        CreationDate: null
+        Copyright: "CC BY 4.0"
+    pdf:
+        Author: "Gergő Pintér"
+        CreationDate: null
+    svg:
+        Creator: "Gergő Pintér"
+        Date: null
+        Rights: "CC BY 4.0"
+colors:
+    land: "#fbfaed"
+    street: "#e0cdae"
+    darkblue: "#191970"
+    trolley: "#e41f18"
+    bus: "#009fe3"
+    tram: "#ffd800"
+    m4: "#4ca22f"
+    bkk: "#4c0e5f"
