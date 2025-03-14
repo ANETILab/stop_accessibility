@@ -21,6 +21,8 @@ poetry lock && poetry install
 
 Geofabrik, with the smallest possible unit:
 
+- [Budapest](https://download.geofabrik.de/europe/hungary.html)
+- [Helsinki](https://download.geofabrik.de/europe/finland.html)
 - [Madrid](https://download.geofabrik.de/europe/spain/madrid.html)
 - [Paris](https://download.geofabrik.de/europe/france/ile-de-france.html)
 - [Rotterdam](https://download.geofabrik.de/europe/netherlands/zuid-holland.html)
