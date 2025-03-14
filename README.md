@@ -68,10 +68,10 @@ However, as the network uses a clustering, the centrality value will be the same
 There are two possible ways to determine the center of the cluster, representing the city center: using the centroid (left) or the medoid (right) of the cluster points.
 Centroid defines a new, "virtual" stop, while medoid is an existing stop.
 In the example below the difference is marginal, a couple of meters only, so it has no significant effect to the outcome.
-Still, bow of them is provided.
+Still, both of them is provided.
 
-<img src=".github/fovam_stop_centroid.png" alt="centroid" width="250">
-<img src=".github/fovam_stop_medoid.png" alt="medoid" width="250">
+<img src=".github/fovam_stop_centroid.png" alt="centroid" title="centroid" width="250">
+<img src=".github/fovam_stop_medoid.png" alt="medoid" title="medoid" width="250">
 
  <!-- <figure>
     <img src=".github/fovam_stop_centroid.png" alt="centroid" width="250">
