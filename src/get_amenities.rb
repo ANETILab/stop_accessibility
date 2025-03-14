@@ -2,6 +2,8 @@ require "fileutils"
 
 city = "budapest"
 osm_file = "hungary-20250123.osm.pbf"
+city = "helsinki"
+osm_file = "finland-latest.osm.pbf"
 city = "madrid"
 osm_file = "madrid-latest.osm.pbf"
 city = "rotterdam"
