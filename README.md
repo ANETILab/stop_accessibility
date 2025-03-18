@@ -117,6 +117,49 @@ The amenities, extracted from OpenStreetMap, which are within the accessibility 
 
 The amenities are aggregated to higher-level [categories](data/essential_amenities.yaml).
 
+## workflow
+
+```yaml
+- name: calculate accessibility
+  input:
+    - valhalla_tiles.tar
+    - stops_with_centrality.csv
+  output:
+    - isochrones.csv
+- name: count_amenities_in_accessibility_polygons
+  input:
+    - essential_amenities.yaml
+    - amenities_filtered.wkt.csv
+    - stop_geometries_from_walk.geojson
+  output:
+    - amenity_counts_in_accessibility.csv
+    - amenity_counts_in_public_transport_accessibility.csv
+- name: determine_distance_from_center
+  input:
+    - stops_with_centrality.csv
+  output:
+    - distance.csv
+- name: determine_Stop_polygons
+  input:
+    - crs.yaml
+    - isochrones.csv
+    - accessible_stops.json
+    - stops_with_centrality.csv
+  output:
+    - stop_geometries_from_walk.csv
+    - stop_geometries_from_walk.geojson
+- name: merge_indicators
+  input:
+    - distance.csv
+    - amenity_counts_in_accessibility.csv
+    - amenity_counts_in_public_transport_accessibility.csv
+    - stop_geometries_from_walk.csv
+    - stops_with_centrality.csv
+  output:
+    - merged.csv
+
+```
+
 ## Caveats
 
 The Budapest isochrones are calculated with an old, 2023 September OSM snapshot.
