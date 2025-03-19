@@ -139,7 +139,7 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
     - stops_with_centrality.csv
   output:
     - distance.csv
-- name: determine_Stop_polygons
+- name: determine_stop_polygons
   input:
     - crs.yaml
     - isochrones.csv
@@ -160,7 +160,28 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
 
 ```
 
+### outer sources
+
+- accessible_stops.json
+  - this one is based on Maté Mizsák's work, which has two outputs:
+    - stops_with_centralities.csv
+    - 10_minute_walbetclus.pkl
+      - this one is a [pickled](https://docs.python.org/3/library/pickle.html) Python object with the following structure: `dict[str, tuple[list, set[str]]]`
+      - the dictionary key is a stop ID, the first element of the tuple is a list of routes accessible within 10 minutes (with the exact time required), and the set is a set of stop IDs accessible from the the given stop.
+      - the `data/stops/<CITY>/accessible_stops.json` is an extracted form of the set from the `10_minute_walbetclus.pkl`, with the structure of `dict[str, list[str]]]`
+- [CRS](https://en.wikipedia.org/wiki/Spatial_reference_system), with meter as unit used, for the distance calculations. For each city/country a specific ones should be used, these are read from the [data/crs.yaml](data/crs.yaml) file.
+  - for Hungary it is the [Egységes Országos Vetület](https://hu.wikipedia.org/wiki/Egys%C3%A9ges_orsz%C3%A1gos_vet%C3%BClet), also known as [EPSG:23700](https://epsg.io/23700)
+  - if needed, you can change it, by modifying the values for every city
+- Valhalla tiles in `data/valhalla/<CITY>/valhalla_tiles.tar`
+  - for calculating the accessibility areas (`output/<CITY>/isochrones.geojson`), the [isochrone API](https://valhalla.github.io/valhalla/api/isochrone/api-reference/) of the [Valhalla routing engine](https://github.com/valhalla/valhalla) is used.
+  - Valhalla uses OpenStreetMap data to prepare a network used for routing. Although it can be used as a server-client application, for projects like this, it is more convient to extract the precompiled network (vallhalla_tiles.tar) and use valhalla from a [python package](https://github.com/gis-ops/pyvalhalla).
+  - further info in [this repo](https://github.com/ANET-NETI/accessibility)
+- [amenity categories](data/essential_amenities.yaml)
+  - based on the paper [The 15-minute city quantified using human mobility data](https://www.nature.com/articles/s41562-023-01770-y)
+  - more discussion is here: https://github.com/ANET-NETI/15minute_city/issues/18
+
 ## Caveats
 
-The Budapest isochrones are calculated with an old, 2023 September OSM snapshot.
 <!-- As this code uses a precompiled Valhalla network from an old, 2023 September OSM snapshot. -->
+- The Budapest isochrones are calculated with an old, 2023 September OSM snapshot.
+- [pyvalhalla](https://github.com/gis-ops/pyvalhalla) in unmaintained in its current form and not compatible with Python 3.12+, so this code requires a special environment with Python 3.11
