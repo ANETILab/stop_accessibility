@@ -120,26 +120,18 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
 ## workflow
 
 ```yaml
-- name: calculate accessibility
+- name: extract_accessible_stops.ipynb
+  input:
+    - 10_minute_walbetclus.pkl
+  output:
+    - accessible_stops.json
+- name: calculate accessibility.ipynb
   input:
     - valhalla_tiles.tar
     - stops_with_centrality.csv
   output:
     - isochrones.csv
-- name: count_amenities_in_accessibility_polygons
-  input:
-    - essential_amenities.yaml
-    - amenities_filtered.wkt.csv
-    - stop_geometries_from_walk.geojson
-  output:
-    - amenity_counts_in_accessibility.csv
-    - amenity_counts_in_public_transport_accessibility.csv
-- name: determine_distance_from_center
-  input:
-    - stops_with_centrality.csv
-  output:
-    - distance.csv
-- name: determine_stop_polygons
+- name: determine_stop_polygons.ipynb
   input:
     - crs.yaml
     - isochrones.csv
@@ -148,7 +140,20 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
   output:
     - stop_geometries_from_walk.csv
     - stop_geometries_from_walk.geojson
-- name: merge_indicators
+- name: count_amenities_in_accessibility_polygons.ipynb
+  input:
+    - essential_amenities.yaml
+    - amenities_filtered.wkt.csv
+    - stop_geometries_from_walk.geojson
+  output:
+    - amenity_counts_in_accessibility.csv
+    - amenity_counts_in_public_transport_accessibility.csv
+- name: determine_distance_from_center.ipynb
+  input:
+    - stops_with_centrality.csv
+  output:
+    - distance.csv
+- name: merge_indicators.ipynb
   input:
     - distance.csv
     - amenity_counts_in_accessibility.csv
