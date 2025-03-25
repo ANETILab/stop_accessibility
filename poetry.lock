@@ -1794,24 +1794,6 @@ files = [
 tests = ["pytest"]
 
 [[package]]
-name = "pyaml"
-version = "24.12.1"
-description = "PyYAML-based module to produce a bit more pretty and readable YAML-serialized data"
-optional = false
-python-versions = ">=3.8"
-groups = ["main"]
-files = [
-    {file = "pyaml-24.12.1-py3-none-any.whl", hash = "sha256:97ed4d31ecc1d7bb93f3d2a66e53548c53d6f572d75d166957abc64a06033b76"},
-    {file = "pyaml-24.12.1.tar.gz", hash = "sha256:3938c2b47924ed74524f844961a011852f7968fb8cc7b3933276087c5d1e45b3"},
-]
-
-[package.dependencies]
-PyYAML = "*"
-
-[package.extras]
-anchors = ["unidecode"]
-
-[[package]]
 name = "pyarrow"
 version = "19.0.0"
 description = "Python library for Apache Arrow"
@@ -2832,6 +2814,18 @@ files = [
 ]
 
 [[package]]
+name = "types-pyyaml"
+version = "6.0.12.20241230"
+description = "Typing stubs for PyYAML"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "types_PyYAML-6.0.12.20241230-py3-none-any.whl", hash = "sha256:fa4d32565219b68e6dee5f67534c722e53c00d1cfc09c435ef04d7353e1e96e6"},
+    {file = "types_pyyaml-6.0.12.20241230.tar.gz", hash = "sha256:7f07622dbd34bb9c8b264fe860a17e0efcad00d50b5f27e93984909d9363498c"},
+]
+
+[[package]]
 name = "types-shapely"
 version = "2.0.0.20250202"
 description = "Typing stubs for shapely"
@@ -2929,4 +2923,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "3.11.*"
-content-hash = "7c0768f5fd4b2e69acc381440cde65c0dca55bedf771a49dc7855dbf7c125348"
+content-hash = "90831395284d90eb026165e9da4086df186218e4330d4e852e7cbe14a98f7705"
