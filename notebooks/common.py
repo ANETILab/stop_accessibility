@@ -1,5 +1,6 @@
 import geopandas as gpd
 import pandas as pd
+import yaml
 from shapely import Point
 
 
@@ -14,3 +15,9 @@ def load_stops(city: str) -> gpd.GeoDataFrame:
     )
     stops = gpd.GeoDataFrame(stops, geometry="geometry", crs=4326)
     return stops
+
+
+def load_crs():
+    with open("../data/crs.yaml", "r") as fp:
+        crs = yaml.safe_load(fp)
+    return crs
