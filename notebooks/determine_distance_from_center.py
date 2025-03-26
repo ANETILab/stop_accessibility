@@ -2,7 +2,7 @@ import geopandas as gpd
 import numpy as np
 import osmnx as ox
 import pandas as pd
-from shapely import Point, Polygon
+from shapely import Point, Polygon, distance
 
 ox.settings.use_cache = True
 ox.settings.log_console = False
@@ -29,19 +29,18 @@ def determine_city_centroid_by_landuse(
 
 
 # based on: https://stackoverflow.com/a/38022636/4737417
-def distance_matrix(data: pd.DataFrame):
+def distance_matrix(data: pd.DataFrame) -> np.ndarray:
     result = []
     for i in data.itertuples():
         r = []
         for j in data.itertuples():
-            d = np.round(i.geometry.distance(j.geometry))
+            d = np.round(distance(i.geometry, j.geometry))
             r.append(d)
         result.append(r)
-    result = np.array(result)
-    return result
+    return np.asarray(result)
 
 
-def medoid_index(distamce_matrix: np.array) -> int:
+def medoid_index(distamce_matrix: np.ndarray) -> int:
     return int(np.argmin(distamce_matrix.sum(axis=0)))
 
 
