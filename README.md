@@ -125,7 +125,7 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
     - 10_minute_walbetclus.pkl
   output:
     - accessible_stops.json
-- name: calculate accessibility.ipynb
+- name: calculate_accessibility.ipynb
   input:
     - valhalla_tiles.tar
     - stops_with_centrality.csv
@@ -164,6 +164,8 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
     - merged.csv
 
 ```
+
+The `pipeline.rb` Ruby script can execute every script for a given city.
 
 ### outer sources
 
