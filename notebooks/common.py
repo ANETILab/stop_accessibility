@@ -21,3 +21,9 @@ def load_crs():
     with open("../data/crs.yaml", "r") as fp:
         crs = yaml.safe_load(fp)
     return crs
+
+
+def load_isochrones(city: str) -> gpd.GeoDataFrame:
+    isochrones = gpd.read_file(f"../output/{city}/isochrones.geojson", engine="pyogrio")
+    isochrones["stop_id"] = isochrones["stop_id"].apply(str)
+    return isochrones
