@@ -48,3 +48,60 @@ def calculate_medoid(data: pd.DataFrame, id_column: str = "stop_id") -> int:
     dmx = distance_matrix(data)
     i = int(np.argmin(dmx.sum(axis=0)))
     return data[id_column].tolist()[i]
+
+
+if __name__ == "__main__":
+    import argparse
+
+    from common import load_crs, load_stops
+
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        "--city",
+        type=str,
+        required=True,
+        help="city ID (lowercase name)",
+    )
+    argparser.add_argument(
+        "--centrality",
+        type=str,
+        default="Betweenness Centrality",
+        required=False,
+        help="centrality measure to use, possible values: Eigenvector Centrality, Degree Centrality, Closeness Centrality, Betweenness Centrality",
+    )
+    opts = argparser.parse_args()
+
+    crs = load_crs()
+    stops = load_stops(opts.city)
+    stops.to_crs(crs[opts.city], inplace=True)
+
+    landuse_centroid = determine_city_centroid_by_landuse(
+        read_boundary(opts.city), crs[opts.city]
+    )
+
+    maxc = stops[opts.centrality].max()
+    medoid_id = calculate_medoid(stops[stops["Betweenness Centrality"] == maxc])
+    medoid = stops[stops["stop_id"] == medoid_id]["geometry"].tolist()[0]
+    centroid = stops[stops["Betweenness Centrality"] == maxc].union_all().centroid
+
+    stops["distance_from_largest_betweenness_medoid"] = stops["geometry"].apply(
+        lambda x: np.round(x.distance(medoid) / 1000, 3)
+    )
+    stops["distance_from_largest_betweenness_centroid"] = stops["geometry"].apply(
+        lambda x: np.round(x.distance(centroid) / 1000, 3)
+    )
+    stops["distance_from_landuse_centroid"] = stops["geometry"].apply(
+        lambda x: np.round(x.distance(landuse_centroid) / 1000, 3)
+    )
+
+    distance = stops[
+        [
+            "stop_id",
+            "distance_from_largest_betweenness_centroid",
+            "distance_from_largest_betweenness_medoid",
+            "distance_from_landuse_centroid",
+        ]
+    ].copy()
+    distance.dropna(subset=["stop_id"]).to_csv(
+        f"../output/{opts.city}/distance.csv", index=False
+    )

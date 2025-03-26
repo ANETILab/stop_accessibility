@@ -81,3 +81,35 @@ def prepare_amenities(city: str) -> gpd.GeoDataFrame:
     amenities["geometry"] = amenities["geometry"].apply(from_wkt)
     amenities = gpd.GeoDataFrame(amenities, geometry="geometry", crs=4326)
     return amenities
+
+
+if __name__ == "__main__":
+    import argparse
+
+    from common import load_isochrones
+
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        "--city",
+        type=str,
+        required=True,
+        help="city ID (lowercase name)",
+    )
+    opts = argparser.parse_args()
+
+    isochrones = load_isochrones(opts.city)
+    amenities = prepare_amenities(opts.city)
+
+    aciwa = count_amenities_in_walk_accessibility(isochrones, amenities)
+    aciwa.to_csv(
+        f"../output/{opts.city}/amenity_counts_in_accessibility.csv", index=False
+    )
+
+    sgfw = gpd.read_file(f"../output/{opts.city}/stop_geometries_from_walk.geojson")
+    sgfw["stop_id"] = sgfw["stop_id"].apply(str)
+
+    acipta = count_amenities_in_public_transport_accessibility(sgfw, amenities)
+    acipta.to_csv(
+        f"../output/{opts.city}/amenity_counts_in_public_transport_accessibility.csv",
+        index=False,
+    )
