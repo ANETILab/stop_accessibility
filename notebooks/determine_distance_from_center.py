@@ -16,12 +16,12 @@ def read_boundary(city: str) -> Polygon:
 def determine_city_centroid_by_landuse(
     boundary: Polygon,
     crs: int,
-    landuse: list[str] = ["residential"],
-    # landuse: list[str] = ["residential", "retail", "industrial"],
+    landuse_types: list[str] = ["residential"],
+    # landuse_types: list[str] = ["residential", "retail", "industrial"],
 ) -> Point:
     landuse = ox.features_from_polygon(
         boundary,
-        tags={"landuse": landuse},
+        tags={"landuse": landuse_types},
     )
     landuse = landuse[landuse["geometry"].geom_type == "Polygon"].copy()
     landuse.to_crs(crs, inplace=True)
