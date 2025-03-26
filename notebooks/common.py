@@ -27,3 +27,22 @@ def load_isochrones(city: str) -> gpd.GeoDataFrame:
     isochrones = gpd.read_file(f"../output/{city}/isochrones.geojson", engine="pyogrio")
     isochrones["stop_id"] = isochrones["stop_id"].apply(str)
     return isochrones
+
+
+def load_amenity_categories():
+    with open("../data/essential_amenities.yaml", "r") as fp:
+        essential_amenities = yaml.safe_load(fp)
+    return essential_amenities
+
+
+def create_lookup(essential_amenities: dict[str, list[str]]) -> dict[str, str]:
+    result = {}
+    for cat, osm_list in essential_amenities.items():
+        for i in osm_list:
+            result[i] = cat
+    return result
+
+
+def load_category_lookup():
+    essential_amenities = load_amenity_categories()
+    return create_lookup(essential_amenities)
