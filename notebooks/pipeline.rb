@@ -15,8 +15,13 @@ OptionParser.new do |opts|
     end
 end.parse!
 
+puts "calculate_accessibility"
 %x(poetry run python calculate_accessibility.py --city #{options[:city]})
+puts "determine_stop_polygons"
 %x(poetry run python determine_stop_polygons.py --city #{options[:city]} --ellipticity-threshold #{options[:ellipticity_threshold]})
+puts "count_amenities_in_accessibility_polygons"
 %x(poetry run python count_amenities_in_accessibility_polygons.py --city #{options[:city]})
+puts "determine_distance_from_center"
 %x(poetry run python determine_distance_from_center.py --city #{options[:city]} --centrality "#{options[:centrality]}")
+puts "merge_indicators"
 %x(poetry run python merge_indicators.py --city #{options[:city]})
