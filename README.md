@@ -187,6 +187,17 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
   - based on the paper [The 15-minute city quantified using human mobility data](https://www.nature.com/articles/s41562-023-01770-y)
   - more discussion is here: https://github.com/ANET-NETI/15minute_city/issues/18
 
+### statistical data
+
+#### Finland
+
+- [Paavo – Open data by postal code area](https://stat.fi/org/avoindata/paikkatietoaineistot/paavo_en.html)
+  - https://stat.fi/tup/paavo/paavon_aineistokuvaukset_en.html
+
+#### Spain
+
+- https://github.com/pablogguz/ineAtlas.data
+
 ## Caveats
 
 <!-- As this code uses a precompiled Valhalla network from an old, 2023 September OSM snapshot. -->
