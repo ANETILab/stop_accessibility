@@ -33,6 +33,12 @@ if __name__ == "__main__":
         },
     )
     distance.drop(["distance_from_largest_betweenness_medoid"], axis=1, inplace=True)
+    distance.rename(
+        {"distance_from_largest_betweenness_centroid": "distance_betweenness"},
+        axis=1,
+        inplace=True,
+    )
+
     ac = pd.read_csv(
         f"../output/{opts.city}/amenity_counts_in_accessibility.csv",
         dtype={
