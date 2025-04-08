@@ -1,90 +1,104 @@
-import argparse
-
+import geopandas as gpd
+import numpy as np
 import pandas as pd
-
-argparser = argparse.ArgumentParser()
-argparser.add_argument(
-    "--city",
-    type=str,
-    required=True,
-    help="city ID (lowercase name)",
-)
-opts = argparser.parse_args()
+from common import load_stops
+from shapely import from_wkt
 
 
-distance = pd.read_csv(
-    f"../output/{opts.city}/distance.csv",
-    dtype={
-        "stop_id": str,
-    },
-)
-ac = pd.read_csv(
-    f"../output/{opts.city}/amenity_counts_in_accessibility.csv",
-    dtype={
-        "stop_id": str,
-    },
-)
-pt_ac = pd.read_csv(
-    f"../output/{opts.city}/amenity_counts_in_public_transport_accessibility.csv",
-    dtype={
-        "stop_id": str,
-    },
-)
-stop_geometries = pd.read_csv(
-    f"../output/{opts.city}/stop_geometries_from_walk.csv",
-    dtype={
-        "stop_id": str,
-    },
-)
-
-stop_centralities = pd.read_csv(
-    f"../data/stops/{opts.city}/stops_with_centrality.csv",
-    dtype={
-        "stop_id": str,
-    },
-)
-stop_centralities.drop(["Node"], axis=1, inplace=True)
-# stop_centralities.columns = [
-#     "eigenvector_centrality",
-#     "degree_centrality",
-#     "closeness_centrality",
-#     "betweenness_centrality",
-#     "stop_id",
-#     "cluster",
-#     "stop_lat",
-#     "stop_lon",
-#     "stop_name",
-# ]
-stop_centralities = stop_centralities.set_axis(
-    [
-        "eigenvector_centrality",
-        "degree_centrality",
-        "closeness_centrality",
-        "betweenness_centrality",
-        "stop_id",
-        "cluster",
-        "stop_lat",
-        "stop_lon",
-        "stop_name",
-    ],
-    axis="columns",
-)
-stop_centralities.dropna(subset=["stop_id"], inplace=True)
+def determine_walk_area(city: str) -> pd.DataFrame:
+    walk_area = pd.read_csv(f"../output/{city}/isochrones.csv", dtype={"stop_id": str})
+    walk_area = walk_area.query("costing == 'walk' & range == 15").copy()
+    walk_area["geometry"] = walk_area["geometry"].apply(from_wkt)
+    walk_area = gpd.GeoDataFrame(walk_area, geometry="geometry", crs=4326).to_crs(23700)
+    walk_area["walk_area"] = np.round(walk_area.area / 1e6, 3)
+    return walk_area[["stop_id", "walk_area"]]
 
 
-wk_amenity = ac.query("costing == 'walk' & range == 15").copy()
-wk_amenity.drop(["costing", "range"], axis=1, inplace=True)
-wk_amenity.columns = ["stop_id"] + [f"{i}_walk15" for i in wk_amenity.columns[1:]]
-mm_amenity = pt_ac.copy()
-mm_amenity.drop(["costing", "range"], axis=1, inplace=True)
-mm_amenity.columns = ["stop_id"] + [f"{i}_multimodal" for i in mm_amenity.columns[1:]]
+if __name__ == "__main__":
+    import argparse
 
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        "--city",
+        type=str,
+        required=True,
+        help="city ID (lowercase name)",
+    )
+    opts = argparser.parse_args()
 
-m = (
-    stop_geometries.drop("geometry", axis=1)
-    .merge(distance, on="stop_id")
-    .merge(mm_amenity, on="stop_id")
-    .merge(wk_amenity, on="stop_id")
-    .merge(stop_centralities, on="stop_id")
-)
-m.to_csv(f"../output/{opts.city}/merged.csv", index=False)
+    distance = pd.read_csv(
+        f"../output/{opts.city}/distance.csv",
+        dtype={
+            "stop_id": str,
+        },
+    )
+    ac = pd.read_csv(
+        f"../output/{opts.city}/amenity_counts_in_accessibility.csv",
+        dtype={
+            "stop_id": str,
+        },
+    )
+    pt_ac = pd.read_csv(
+        f"../output/{opts.city}/amenity_counts_in_public_transport_accessibility.csv",
+        dtype={
+            "stop_id": str,
+        },
+    )
+    stop_geometries = pd.read_csv(
+        f"../output/{opts.city}/stop_geometries_from_walk.csv",
+        dtype={
+            "stop_id": str,
+        },
+    )
+
+    stop_centralities = load_stops(opts.city)
+    stop_centralities.drop(["Node"], axis=1, inplace=True)
+    # stop_centralities.columns = [
+    #     "eigenvector_centrality",
+    #     "degree_centrality",
+    #     "closeness_centrality",
+    #     "betweenness_centrality",
+    #     "stop_id",
+    #     "cluster",
+    #     "stop_lat",
+    #     "stop_lon",
+    #     "stop_name",
+    # ]
+    stop_centralities = stop_centralities.set_axis(
+        [
+            "eigenvector_centrality",
+            "degree_centrality",
+            "closeness_centrality",
+            "betweenness_centrality",
+            "stop_id",
+            "cluster",
+            "stop_lat",
+            "stop_lon",
+            "stop_name",
+        ],
+        axis="columns",
+    )
+    stop_centralities.dropna(subset=["stop_id"], inplace=True)
+
+    wk_amenity = ac.query("costing == 'walk' & range == 15").copy()
+    wk_amenity.drop(["costing", "range"], axis=1, inplace=True)
+    wk_amenity.columns = ["stop_id"] + [
+        f"{i}_walk15" for i in wk_amenity.columns.tolist()[1:]
+    ]
+    mm_amenity = pt_ac.copy()
+    mm_amenity.drop(["costing", "range"], axis=1, inplace=True)
+    mm_amenity.columns = ["stop_id"] + [
+        f"{i}_multimodal" for i in mm_amenity.columns.tolist()[1:]
+    ]
+    walk_area = determine_walk_area(opts.city)
+    walk_area["area_difference"] = walk_area
+
+    m = (
+        stop_geometries.drop("geometry", axis=1)
+        .merge(distance, on="stop_id")
+        .merge(mm_amenity, on="stop_id")
+        .merge(wk_amenity, on="stop_id")
+        .merge(walk_area, on="stop_id")
+        .merge(stop_centralities, on="stop_id")
+    )
+    m.to_csv(f"../output/{opts.city}/merged.csv", index=False)
