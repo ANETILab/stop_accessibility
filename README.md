@@ -198,6 +198,43 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 
 - https://github.com/pablogguz/ineAtlas.data
 
+## output
+
+|column name|description           |
+|:----------|:---------------------|
+|stop_id|stop ID from the GTFS data|
+|area|area of the 5-minute walking polygons from the accessible stops, see details above|
+|ellipticity|ellipticity value of the stop cluster [0..1], see details above|
+|number_of_accessible_stops|the number of accessible stops within 10 minutes|
+|distance_centroid|distance from the stop with the largest betweenness centrality (claster centroid)|
+|distance_from_landuse_centroid|distance from the centroid of the residential areas of the city|
+|cultural_institutions_multimodal|number of cultural institutions in the multimodal accessibility|
+|drugstores_multimodal|number of drugstores in the multimodal accessibility|
+|groceries_multimodal|number of grocery stores in the multimodal accessibility|
+|healthcare_multimodal|number of healthcare institutions in the multimodal accessibility|
+|parks_multimodal|number of parks in the multimodal accessibility|
+|religious_organizations_multimodal|number of religious organizations in the multimodal accessibility|
+|restaurants_multimodal|number of restaurants in the multimodal accessibility|
+|schools_multimodal|number of schools in the multimodal accessibility|
+|services_multimodal|number of services in the multimodal accessibility|
+|cultural_institutions_walk15|number of cultural institutions 15-minute walking area|
+|drugstores_walk15|number of drugstores 15-minute walking area|
+|groceries_walk15|number of grocery stores 15-minute walking area|
+|healthcare_walk15|number of healthcare institutions 15-minute walking area|
+|parks_walk15|number of parks 15-minute walking area|
+|religious_organizations_walk15|number of religious organizations 15-minute walking area|
+|restaurants_walk15|number of restaurants 15-minute walking area|
+|schools_walk15|number of schools 15-minute walking area|
+|services_walk15|number of services in the 15-minute walking area|
+|eigenvector_centrality|eigenvector centrality of the GTFS netwok|
+|degree_centrality|degree centrality of the GTFS network|
+|closeness_centrality|closeness centrality of the GTFS network|
+|betweenness_centrality|betweenness centrality of the GTFS network|
+|cluster|cluster ID, not deterministic|
+|stop_lat|latitude of the stop (cluster center)|
+|stop_lon|longitude of the stop (cluster center)|
+|stop_name|name of the stop in the system of the public transport company|
+
 ## Caveats
 
 <!-- As this code uses a precompiled Valhalla network from an old, 2023 September OSM snapshot. -->
