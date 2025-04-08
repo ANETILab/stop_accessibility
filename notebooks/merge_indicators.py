@@ -16,7 +16,7 @@ def determine_walk_area(city: str) -> pd.DataFrame:
 
 def calculate_accessibility_area_difference(
     walk_area: pd.DataFrame, stop_geometries: gpd.GeoDataFrame
-) -> pd.DaraFrame:
+) -> pd.DataFrame:
     result = walk_area.merge(stop_geometries[["stop_id", "area"]], on="stop_id")
     result["area_difference"] = result["area"] - result["walk_area"]
     return result.drop(["area"], axis=1)
