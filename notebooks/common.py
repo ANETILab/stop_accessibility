@@ -4,9 +4,9 @@ import yaml
 from shapely import Point
 
 
-def load_stops(city: str) -> gpd.GeoDataFrame:
+def load_stops(city: str, version: str) -> gpd.GeoDataFrame:
     stops = pd.read_csv(
-        f"../data/stops/{city}/stops_with_centrality.csv",
+        f"../data/stops/{city}/{version}/stops_with_centrality.csv",
         engine="pyarrow",
         # dtype={"stop_id": str},
     )
@@ -26,7 +26,10 @@ def load_crs():
     return crs
 
 
-def load_isochrones(city: str) -> gpd.GeoDataFrame:
-    isochrones = gpd.read_file(f"../output/{city}/isochrones.geojson", engine="pyogrio")
+def load_isochrones(city: str, version: str) -> gpd.GeoDataFrame:
+    isochrones = gpd.read_file(
+        f"../output/{city}/{version}/isochrones.geojson",
+        engine="pyogrio",
+    )
     isochrones["stop_id"] = isochrones["stop_id"].apply(str)
     return isochrones

@@ -5,8 +5,10 @@ from common import load_stops
 from shapely import from_wkt
 
 
-def determine_walk_area(city: str) -> pd.DataFrame:
-    walk_area = pd.read_csv(f"../output/{city}/isochrones.csv", dtype={"stop_id": str})
+def determine_walk_area(city: str, version: str) -> pd.DataFrame:
+    walk_area = pd.read_csv(
+        f"../output/{city}/{version}/isochrones.csv", dtype={"stop_id": str}
+    )
     walk_area = walk_area.query("costing == 'walk' & range == 15").copy()
     walk_area["geometry"] = walk_area["geometry"].apply(from_wkt)
     walk_area = gpd.GeoDataFrame(walk_area, geometry="geometry", crs=4326).to_crs(23700)
@@ -32,14 +34,17 @@ if __name__ == "__main__":
         required=True,
         help="city ID (lowercase name)",
     )
+    argparser.add_argument(
+        "--data-version",
+        type=str,
+        default="",
+        help="data version (subfolder in city)",
+    )
     opts = argparser.parse_args()
 
-    distance = pd.read_csv(
-        f"../output/{opts.city}/distance.csv",
-        dtype={
-            "stop_id": str,
-        },
-    )
+    path = f"../output/{opts.city}/{opts.data_version}"
+
+    distance = pd.read_csv(f"{path}/distance.csv", dtype={"stop_id": str})
     distance.drop(["distance_from_largest_betweenness_medoid"], axis=1, inplace=True)
     distance.rename(
         {"distance_from_largest_betweenness_centroid": "distance_betweenness"},
@@ -48,25 +53,17 @@ if __name__ == "__main__":
     )
 
     ac = pd.read_csv(
-        f"../output/{opts.city}/amenity_counts_in_accessibility.csv",
-        dtype={
-            "stop_id": str,
-        },
+        f"{path}/amenity_counts_in_accessibility.csv", dtype={"stop_id": str}
     )
     pt_ac = pd.read_csv(
-        f"../output/{opts.city}/amenity_counts_in_public_transport_accessibility.csv",
-        dtype={
-            "stop_id": str,
-        },
+        f"{path}/amenity_counts_in_public_transport_accessibility.csv",
+        dtype={"stop_id": str},
     )
     stop_geometries = pd.read_csv(
-        f"../output/{opts.city}/stop_geometries_from_walk.csv",
-        dtype={
-            "stop_id": str,
-        },
+        f"{path}/stop_geometries_from_walk.csv", dtype={"stop_id": str}
     )
 
-    stop_centralities = load_stops(opts.city)
+    stop_centralities = load_stops(opts.city, opts.data_version)
     stop_centralities.drop(["Node", "geometry"], axis=1, inplace=True)
     stop_centralities = stop_centralities.set_axis(
         [
@@ -95,7 +92,7 @@ if __name__ == "__main__":
         f"{i}_multimodal" for i in mm_amenity.columns.tolist()[1:]
     ]
 
-    walk_area = determine_walk_area(opts.city)
+    walk_area = determine_walk_area(opts.city, opts.data_version)
     walk_area = calculate_accessibility_area_difference(walk_area, stop_geometries)
 
     m = (
@@ -106,4 +103,4 @@ if __name__ == "__main__":
         .merge(walk_area, on="stop_id")
         .merge(stop_centralities, on="stop_id")
     )
-    m.to_csv(f"../output/{opts.city}/merged.csv", index=False)
+    m.to_csv(f"{path}/merged.csv", index=False)

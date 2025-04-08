@@ -9,7 +9,7 @@ ox.settings.log_console = False
 
 
 def read_boundary(city: str) -> Polygon:
-    boundary = gpd.read_file(f"../output/{city}/boundary.geojson").set_crs(4326)
+    boundary = gpd.read_file(f"../data/{city}/boundary.geojson").set_crs(4326)
     return boundary.geometry[0]
 
 
@@ -69,10 +69,16 @@ if __name__ == "__main__":
         required=False,
         help="centrality measure to use, possible values: Eigenvector Centrality, Degree Centrality, Closeness Centrality, Betweenness Centrality",
     )
+    argparser.add_argument(
+        "--data-version",
+        type=str,
+        default="",
+        help="data version (subfolder in city)",
+    )
     opts = argparser.parse_args()
 
     crs = load_crs()
-    stops = load_stops(opts.city)
+    stops = load_stops(opts.city, opts.data_version)
     stops.to_crs(crs[opts.city], inplace=True)
 
     landuse_centroid = determine_city_centroid_by_landuse(
@@ -102,6 +108,5 @@ if __name__ == "__main__":
             "distance_from_landuse_centroid",
         ]
     ].copy()
-    distance.dropna(subset=["stop_id"]).to_csv(
-        f"../output/{opts.city}/distance.csv", index=False
-    )
+    path = f"../output/{opts.city}/{opts.data_version}"
+    distance.dropna(subset=["stop_id"]).to_csv(f"{path}/distance.csv", index=False)

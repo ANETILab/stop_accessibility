@@ -68,7 +68,8 @@ def load_category_lookup():
 def prepare_amenities(city: str) -> gpd.GeoDataFrame:
     lookup = load_category_lookup()
     amenities = gpd.read_file(
-        f"../output/{city}/amenities/amenities_filtered.wkt.csv", engine="pyogrio"
+        f"../output/{city}/amenities/amenities_filtered.wkt.csv",
+        engine="pyogrio",
     )
     amenities.rename({"category": "osm_category"}, axis=1, inplace=True)
     amenities["category"] = amenities["osm_category"].map(lookup)
@@ -95,21 +96,27 @@ if __name__ == "__main__":
         required=True,
         help="city ID (lowercase name)",
     )
+    argparser.add_argument(
+        "--data-version",
+        type=str,
+        default="",
+        help="data version (subfolder in city)",
+    )
     opts = argparser.parse_args()
 
-    isochrones = load_isochrones(opts.city)
+    isochrones = load_isochrones(opts.city, opts.data_version)
     amenities = prepare_amenities(opts.city)
 
     aciwa = count_amenities_in_walk_accessibility(isochrones, amenities)
-    aciwa.to_csv(
-        f"../output/{opts.city}/amenity_counts_in_accessibility.csv", index=False
-    )
 
-    sgfw = gpd.read_file(f"../output/{opts.city}/stop_geometries_from_walk.geojson")
+    path = f"../output/{opts.city}/{opts.data_version}"
+    aciwa.to_csv(f"{path}/amenity_counts_in_accessibility.csv", index=False)
+
+    sgfw = gpd.read_file(f"{path}/stop_geometries_from_walk.geojson")
     sgfw["stop_id"] = sgfw["stop_id"].apply(str)
 
     acipta = count_amenities_in_public_transport_accessibility(sgfw, amenities)
     acipta.to_csv(
-        f"../output/{opts.city}/amenity_counts_in_public_transport_accessibility.csv",
+        f"{path}/amenity_counts_in_public_transport_accessibility.csv",
         index=False,
     )

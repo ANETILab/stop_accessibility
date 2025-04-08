@@ -94,14 +94,21 @@ if __name__ == "__main__":
         required=True,
         help="city ID (lowercase name)",
     )
+    argparser.add_argument(
+        "--data-version",
+        type=str,
+        default="",
+        help="data version (subfolder in city)",
+    )
     opts = argparser.parse_args()
-    stops = load_stops(opts.city)
+    stops = load_stops(opts.city, opts.data_version)
     actor = initialize_valhalla(opts.city)
 
-    Path(f"../output/{opts.city}").mkdir(parents=True, exist_ok=True)
+    path = f"../output/{opts.city}/{opts.data_version}"
+    Path(path).mkdir(parents=True, exist_ok=True)
 
     isochones = determine_isochrones(stops, actor)
-    isochones.to_csv(f"../output/{opts.city}/isochrones.csv", index=False)
+    isochones.to_csv(f"{path}/isochrones.csv", index=False)
 
     isochrones_gdf = gpd.GeoDataFrame(isochones, geometry="geometry", crs=4326)
-    isochrones_gdf.to_file(f"../output/{opts.city}/isochrones.geojson")
+    isochrones_gdf.to_file(f"{path}/isochrones.geojson")

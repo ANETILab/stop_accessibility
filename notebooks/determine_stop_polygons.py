@@ -5,7 +5,7 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 import shapely
-from common import load_crs, load_stops
+from common import load_crs, load_isochrones, load_stops
 from shapely import Point, Polygon
 
 
@@ -160,20 +160,24 @@ if __name__ == "__main__":
         required=False,
         help="number of stops requires to calculate ellipticity",
     )
+    argparser.add_argument(
+        "--data-version",
+        type=str,
+        default="",
+        help="data version (subfolder in city)",
+    )
     opts = argparser.parse_args()
 
     crs = load_crs()
 
-    with open(f"../data/stops/{opts.city}/accessible_stops.json", "r") as fp:
+    with open(
+        f"../data/stops/{opts.city}/{opts.data_version}/accessible_stops.json", "r"
+    ) as fp:
         accessible_stops = json.load(fp)
 
-    isochrones = pd.read_csv(
-        f"../output/{opts.city}/isochrones.csv", dtype={"stop_id": str}
-    )
-    isochrones["geometry"] = isochrones["geometry"].apply(shapely.from_wkt)
-    isochrones = gpd.GeoDataFrame(isochrones, geometry="geometry", crs=4326)
+    isochrones = load_isochrones(opts.city, opts.data_version)
 
-    stops = load_stops(opts.city)
+    stops = load_stops(opts.city, opts.data_version)
 
     sgfw = determine_stop_geometries_from_walk(
         stops,
@@ -182,5 +186,6 @@ if __name__ == "__main__":
         crs=crs[opts.city],
         ellipticity_threshold=opts.ellipticity_threshold,
     )
-    sgfw.to_csv(f"../output/{opts.city}/stop_geometries_from_walk.csv", index=False)
-    sgfw.to_file(f"../output/{opts.city}/stop_geometries_from_walk.geojson")
+    path = f"../output/{opts.city}/{opts.data_version}"
+    sgfw.to_csv(f"{path}/stop_geometries_from_walk.csv", index=False)
+    sgfw.to_file(f"{path}/stop_geometries_from_walk.geojson")
