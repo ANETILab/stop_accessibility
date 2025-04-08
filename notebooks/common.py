@@ -10,6 +10,7 @@ def load_stops(city: str) -> gpd.GeoDataFrame:
         engine="pyarrow",
         # dtype={"stop_id": str},
     )
+    stops.drop_duplicates(subset=["stop_id"], inplace=True)
     stops.dropna(subset=["stop_id"], inplace=True)
     stops["stop_id"] = stops["stop_id"].apply(str)
     stops["geometry"] = stops.apply(
