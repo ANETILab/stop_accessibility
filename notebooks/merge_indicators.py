@@ -32,6 +32,7 @@ if __name__ == "__main__":
             "stop_id": str,
         },
     )
+    distance.drop(["distance_from_largest_betweenness_medoid"], axis=1, inplace=True)
     ac = pd.read_csv(
         f"../output/{opts.city}/amenity_counts_in_accessibility.csv",
         dtype={
