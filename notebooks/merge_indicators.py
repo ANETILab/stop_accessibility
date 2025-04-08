@@ -52,18 +52,7 @@ if __name__ == "__main__":
     )
 
     stop_centralities = load_stops(opts.city)
-    stop_centralities.drop(["Node"], axis=1, inplace=True)
-    # stop_centralities.columns = [
-    #     "eigenvector_centrality",
-    #     "degree_centrality",
-    #     "closeness_centrality",
-    #     "betweenness_centrality",
-    #     "stop_id",
-    #     "cluster",
-    #     "stop_lat",
-    #     "stop_lon",
-    #     "stop_name",
-    # ]
+    stop_centralities.drop(["Node", "geometry"], axis=1, inplace=True)
     stop_centralities = stop_centralities.set_axis(
         [
             "eigenvector_centrality",
