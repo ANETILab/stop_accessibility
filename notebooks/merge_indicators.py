@@ -90,8 +90,11 @@ if __name__ == "__main__":
     mm_amenity.columns = ["stop_id"] + [
         f"{i}_multimodal" for i in mm_amenity.columns.tolist()[1:]
     ]
+
     walk_area = determine_walk_area(opts.city)
-    walk_area["area_difference"] = walk_area
+    walk_area = walk_area.merge(stop_geometries[["stop_id", "area"]], on="stop_id")
+    walk_area["area_difference"] = walk_area["area"] - walk_area["walk_area"]
+    walk_area.drop(["area"], axis=1, inplace=True)
 
     m = (
         stop_geometries.drop("geometry", axis=1)
