@@ -64,10 +64,10 @@ def determine_stop_geometries(
     """
     records = []
     for row in stops.itertuples():
-        accessible_stops = list(
+        accessible_stop_list = list(
             subgraphs.get(f"{row.stop_id}_network_{time_marker}", nx.Graph())
         )
-        accessible_stops = stops[stops["stop_id"].isin(accessible_stops)].copy()
+        accessible_stops = stops[stops["stop_id"].isin(accessible_stop_list)].copy()
         if len(accessible_stops) == 0:
             if include_empty:
                 records.append([row.stop_id, Polygon(), 0, Polygon(), 0, 0])
