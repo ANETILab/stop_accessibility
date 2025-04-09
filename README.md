@@ -203,7 +203,7 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 |column name|description           |
 |:----------|:---------------------|
 |stop_id|stop ID from the GTFS data|
-|area|area of the 5-minute walking polygons from the accessible stops, see details above|
+|area|area of the 5-minute walking polygons from the accessible stops in km^2^, see details above|
 |ellipticity|ellipticity value of the stop cluster [0..1], see details above|
 |number_of_accessible_stops|the number of accessible stops within 10 minutes|
 |distance_centroid|distance from the stop with the largest betweenness centrality (claster centroid)|
@@ -226,6 +226,8 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 |restaurants_walk15|number of restaurants 15-minute walking area|
 |schools_walk15|number of schools 15-minute walking area|
 |services_walk15|number of services in the 15-minute walking area|
+|walk_area|area of the 15-minute walking polygons from the stop in km^2^|
+|area_difference|difference of the (public transport accessibility) area and the walk_area in km^2^|
 |eigenvector_centrality|eigenvector centrality of the GTFS netwok|
 |degree_centrality|degree centrality of the GTFS network|
 |closeness_centrality|closeness centrality of the GTFS network|
