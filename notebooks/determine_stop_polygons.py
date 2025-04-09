@@ -221,6 +221,7 @@ if __name__ == "__main__":
         crs=crs[opts.city],
         concaveness_ratio=opts.concaveness,
     )
+    sgfw = sgfw.merge(cc_area, on="stop_id")
     path = f"../output/{opts.city}/{opts.data_version}"
     sgfw.to_csv(f"{path}/stop_geometries_from_walk.csv", index=False)
     sgfw.to_file(f"{path}/stop_geometries_from_walk.geojson")
