@@ -49,7 +49,7 @@ def ellipticity(
     if len(points) < threshold:
         return None
 
-    return np.round(compute_ellipticity(np.ndarray(points)), decimals)
+    return np.round(compute_ellipticity(points), decimals)
 
 
 def determine_stop_geometries(
@@ -102,6 +102,24 @@ def determine_stop_geometries(
     ]
 
     return pd.DataFrame.from_records(records, columns=columns)
+
+
+def determine_concave_area(
+    stops: gpd.GeoDataFrame,
+    accessible_stops: dict,
+    crs: int = 23700,
+    concaveness_ratio: float = 0.2,
+) -> pd.DataFrame:
+    records: list = []
+    for row in stops.itertuples():
+        if row.stop_id not in accessible_stops:
+            continue
+        accessible = stops[stops["stop_id"].isin(accessible_stops[row.stop_id])].copy()
+        accessible.to_crs(crs, inplace=True)
+
+        cc = shapely.concave_hull(accessible.union_all(), ratio=concaveness_ratio)
+        records.append([row.stop_id, np.round(cc.area / 1e6, 3)])
+    return pd.DataFrame.from_records(records, columns=["stop_id", "concave_area"])
 
 
 def determine_stop_geometries_from_walk(
@@ -164,6 +182,13 @@ if __name__ == "__main__":
         help="number of stops requires to calculate ellipticity",
     )
     argparser.add_argument(
+        "--concaveness",
+        type=float,
+        default=0.2,
+        required=False,
+        help="number of stops requires to calculate ellipticity",
+    )
+    argparser.add_argument(
         "--data-version",
         type=str,
         default="",
@@ -188,6 +213,12 @@ if __name__ == "__main__":
         accessible_stops,
         crs=crs[opts.city],
         ellipticity_threshold=opts.ellipticity_threshold,
+    )
+    cc_area = determine_concave_area(
+        stops,
+        accessible_stops,
+        crs=crs[opts.city],
+        concaveness_ratio=opts.concaveness,
     )
     path = f"../output/{opts.city}/{opts.data_version}"
     sgfw.to_csv(f"{path}/stop_geometries_from_walk.csv", index=False)
