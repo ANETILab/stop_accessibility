@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 import geopandas as gpd
 import networkx as nx
@@ -9,7 +10,7 @@ from common import load_crs, load_isochrones, load_stops
 from shapely import Point, Polygon
 
 
-def compute_ellipticity(points: np.array) -> float:
+def compute_ellipticity(points: np.ndarray) -> float:
     """
     Compute ellipticity of a set of points.
 
@@ -41,12 +42,14 @@ def compute_ellipticity(points: np.array) -> float:
     return ellipticity
 
 
-def ellipticity(points: list[Point], threshold: int = 10, decimals: int = 4) -> float:
+def ellipticity(
+    points: list[Point], threshold: int = 10, decimals: int = 4
+) -> Optional[float]:
     points = [(i.x, i.y) for i in points]
     if len(points) < threshold:
         return None
 
-    return np.round(compute_ellipticity(points), decimals)
+    return np.round(compute_ellipticity(np.ndarray(points)), decimals)
 
 
 def determine_stop_geometries(
