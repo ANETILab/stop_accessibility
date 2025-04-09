@@ -9,7 +9,7 @@ ox.settings.log_console = False
 
 
 def read_boundary(city: str) -> Polygon:
-    boundary = gpd.read_file(f"../data/{city}/boundary.geojson").set_crs(4326)
+    boundary = gpd.read_file(f"../data/osm/{city}/boundary.geojson").set_crs(4326)
     return boundary.geometry[0]
 
 
