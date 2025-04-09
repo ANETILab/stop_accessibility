@@ -22,12 +22,12 @@ end.parse!
 FileUtils.mkdir_p "../output/#{options[:city]}/#{options[:data_version]}"
 
 puts "calculate_accessibility"
-%x(poetry run python calculate_accessibility.py --city #{options[:city]} --data-version #{options[:data_version]})
+%x(poetry run python calculate_accessibility.py --city #{options[:city]} --data-version "#{options[:data_version]}")
 puts "determine_stop_polygons"
-%x(poetry run python determine_stop_polygons.py --city #{options[:city]} --ellipticity-threshold #{options[:ellipticity_threshold]} --data-version #{options[:data_version]})
+%x(poetry run python determine_stop_polygons.py --city #{options[:city]} --ellipticity-threshold #{options[:ellipticity_threshold]} --data-version "#{options[:data_version]}")
 puts "count_amenities_in_accessibility_polygons"
-%x(poetry run python count_amenities_in_accessibility_polygons.py --city #{options[:city]} --data-version #{options[:data_version]})
+%x(poetry run python count_amenities_in_accessibility_polygons.py --city #{options[:city]} --data-version "#{options[:data_version]}")
 puts "determine_distance_from_center"
-%x(poetry run python determine_distance_from_center.py --city #{options[:city]} --centrality "#{options[:centrality]}" --data-version #{options[:data_version]})
+%x(poetry run python determine_distance_from_center.py --city #{options[:city]} --centrality "#{options[:centrality]}" --data-version "#{options[:data_version]}")
 puts "merge_indicators"
-%x(poetry run python merge_indicators.py --city #{options[:city]} --data-version #{options[:data_version]})
+%x(poetry run python merge_indicators.py --city #{options[:city]} --data-version "#{options[:data_version]}")

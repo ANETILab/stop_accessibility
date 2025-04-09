@@ -98,6 +98,7 @@ if __name__ == "__main__":
         "--data-version",
         type=str,
         default="",
+        required=False,
         help="data version (subfolder in city)",
     )
     opts = argparser.parse_args()
