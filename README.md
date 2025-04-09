@@ -206,7 +206,7 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 |area|area of the 5-minute walking polygons from the accessible stops in km^2^, see details above|
 |ellipticity|ellipticity value of the stop cluster [0..1], see details above|
 |number_of_accessible_stops|the number of accessible stops within 10 minutes|
-|distance_centroid|distance from the stop with the largest betweenness centrality (claster centroid)|
+|distance_betweenness|distance from the stop with the largest betweenness centrality (claster centroid)|
 |distance_from_landuse_centroid|distance from the centroid of the residential areas of the city|
 |cultural_institutions_multimodal|number of cultural institutions in the multimodal accessibility|
 |drugstores_multimodal|number of drugstores in the multimodal accessibility|
