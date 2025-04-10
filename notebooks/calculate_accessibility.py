@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import geopandas as gpd
 import pandas as pd
@@ -49,23 +49,26 @@ def build_car_query(
 
 
 def determine_isochrones(
-    stops: gpd.GeoDataFrame, actor: Actor, times: list[int] = [5, 10, 15]
+    stops: gpd.GeoDataFrame,
+    actor: Actor,
+    times: list[int] = [5, 10, 15],
+    costing: list[tuple[str, Callable]] = [
+        ("walk", build_walk_query),
+        ("bicycle", build_bicycle_query),
+    ],
 ) -> pd.DataFrame:
     isochones = []
     for row in stops.itertuples():
-        w = get_isochrone(
-            build_walk_query({"lon": row.stop_lon, "lat": row.stop_lat}, times=times),
-            actor,
-        )
-        b = get_isochrone(
-            build_bicycle_query(
-                {"lon": row.stop_lon, "lat": row.stop_lat}, times=times
-            ),
-            actor,
-        )
-        for t in times:
-            isochones.append([row.stop_id, w[t], "walk", t])
-            isochones.append([row.stop_id, b[t], "bicycle", t])
+        for label, func in costing:
+            r = get_isochrone(
+                func({"lon": row.stop_lon, "lat": row.stop_lat}, times=times),
+                actor,
+            )
+            for t in times:
+                if t in r:
+                    isochones.append([row.stop_id, r[t], label, t])
+                else:
+                    isochones.append([row.stop_id, None, label, t])
     return pd.DataFrame.from_records(
         isochones, columns=["stop_id", "geometry", "costing", "range"]
     )
@@ -77,7 +80,7 @@ def initialize_valhalla(city: str) -> Actor:
         verbose=True,
     )
 
-    config["service_limits"]["isochrone"]["max_contours"] = 10
+    config["service_limits"]["isochrone"]["max_contours"] = 20
     config["service_limits"]["isochrone"]["max_locations"] = 10_000
     config["service_limits"]["isochrone"]["max_distance"] = 100_000
 
