@@ -24,6 +24,10 @@ end.parse!
 
 FileUtils.mkdir_p "../output/#{options[:city]}/#{options[:data_version]}"
 
+if options[:stages].include? "0"
+    puts "[stage 0] extract_accessible_stops"
+    %x(poetry run python extract_accessible_stops.py --city #{options[:city]} --data-version "#{options[:data_version]}")
+end
 if options[:stages].include? "1"
     puts "[stage 1] calculate_accessibility"
     %x(poetry run python calculate_accessibility.py --city #{options[:city]} --data-version "#{options[:data_version]}")
