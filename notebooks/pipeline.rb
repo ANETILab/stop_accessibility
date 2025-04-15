@@ -1,7 +1,7 @@
 require "optparse"
 require "fileutils"
 
-options = {ellipticity_threshold: 5, centrality: "Betweenness Centrality", data_version: "", stages: ["1", "2", "3", "4", "5"]}
+options = {ellipticity_threshold: 5, centrality: "Betweenness Centrality", data_version: "", stages: ["0", "1", "2", "3", "4", "5"]}
 OptionParser.new do |opts|
     opts.banner = "Usage: pipeline.rb [options]"
 
@@ -17,8 +17,8 @@ OptionParser.new do |opts|
     opts.on("--data-version VERSION", String, "data version (subfolder in city)") do |x|
         options[:data_version] = x
     end
-    opts.on("--stages STAGES", String, "stages separated by comma, i.e.: 1,2,3,4,5") do |x|
-        options[:stages] = x
+    opts.on("--stages STAGES", String, "stages separated by comma, i.e.: 0,1,2,3,4,5") do |x|
+        options[:stages] = x.split(",")
     end
 end.parse!
 
