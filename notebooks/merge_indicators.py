@@ -72,6 +72,7 @@ if __name__ == "__main__":
             "Degree Centrality": "degree_centrality",
             "Closeness Centrality": "closeness_centrality",
             "Betweenness Centrality": "betweenness_centrality",
+            "clust": "cluster",
         },
         axis="columns",
     )
