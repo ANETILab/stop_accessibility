@@ -12,7 +12,7 @@ import xyzservices.providers as xyz
 import yaml
 from branca.colormap import StepColormap
 from matplotlib.colors import to_hex
-from shapely import Polygon
+from shapely import Point, Polygon
 from sklearn.preprocessing import minmax_scale
 
 with open("../data/crs.yaml", "r") as fp:
@@ -233,11 +233,58 @@ def plot_stops(
     return fig, ax
 
 
-# if __name__ == "__main__":
-#     data = pd.read_csv(f"../output/{CITY}/{VERSION}/merged.csv")
-#     data["geometry"] = data.apply(lambda x: Point(x["stop_lon"], x["stop_lat"]), axis=1)
-#     data = gpd.GeoDataFrame(data, geometry="geometry", crs=4326)
+if __name__ == "__main__":
+    import argparse
 
-#     boundary = gpd.read_file(f"../data/osm/{CITY}/boundary.geojson").to_crs(crs[CITY])
-#     boundary_polygon = boundary.geometry[0]
-#     lon, lat = get_boundary_centroid(boundary)
+    import yaml
+
+    with open("../data/crs.yaml", "r") as fp:
+        crs = yaml.safe_load(fp)
+    with open("../plotting_config.yaml", "r") as fp:
+        config = yaml.safe_load(fp)
+
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        "--city",
+        type=str,
+        required=True,
+        help="city ID (lowercase name)",
+    )
+    argparser.add_argument(
+        "--data-version",
+        type=str,
+        default="",
+        required=False,
+        help="data version (subfolder in city)",
+    )
+    opts = argparser.parse_args()
+    data = pd.read_csv(f"../output/{opts.city}/{opts.data_version}/merged.csv")
+    data["geometry"] = data.apply(lambda x: Point(x["stop_lon"], x["stop_lat"]), axis=1)
+    data = gpd.GeoDataFrame(data, geometry="geometry", crs=4326)
+
+    boundary = gpd.read_file(f"../data/osm/{opts.city}/boundary.geojson").to_crs(
+        crs[opts.city]
+    )
+    boundary_polygon = boundary.geometry[0]
+    lon, lat = get_boundary_centroid(boundary)
+
+    to_plot = data.sort_values("ellipticity", ascending=True).to_crs(crs[opts.city])
+
+    fig, ax = plot_stops(
+        gpd.clip(to_plot, boundary_polygon).query("ellipticity.notna()"),
+        boundary,
+        "ellipticity",
+        crs=crs[opts.city],
+    )
+
+    for i in ["png"]:
+        fig.savefig(
+            f"../output/{opts.city}/{opts.data_version}/ellipticity_jenks.{i}",
+            dpi=300,
+            facecolor="white",
+            pad_inches=0,
+            metadata=config["metadata"][i],
+        )
+
+    m = create_folium_map(data, boundary, lon, lat)
+    m.save(f"../output/{opts.city}/{opts.data_version}/folium.html")
