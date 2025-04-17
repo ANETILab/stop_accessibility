@@ -1,7 +1,7 @@
 require "optparse"
 require "fileutils"
 
-options = {ellipticity_threshold: 5, centrality: "Betweenness Centrality", data_version: "", stages: ["0", "1", "2", "3", "4", "5"]}
+options = {ellipticity_threshold: 5, centrality: "Betweenness Centrality", data_version: "", stages: ["0", "1", "2", "3", "4", "5", "6"]}
 OptionParser.new do |opts|
     opts.banner = "Usage: pipeline.rb [options]"
 
@@ -47,4 +47,8 @@ end
 if options[:stages].include? "5"
     puts "[stage 5] merge_indicators"
     %x(poetry run python merge_indicators.py --city #{options[:city]} --data-version "#{options[:data_version]}")
+end
+if options[:stages].include? "6"
+    puts "[stage 6] plot_indicators"
+    %x(poetry run python plot_ellipticity.py --city #{options[:city]} --data-version "#{options[:data_version]}")
 end
