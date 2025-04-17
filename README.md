@@ -196,7 +196,7 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 
 #### Spain
 
-- https://github.com/pablogguz/ineAtlas.data
+The Spanish income data is from [INE. Instituto Nacional de Estadística](https://www.ine.es/dyngs/INEbase/en/operacion.htm?c=Estadistica_C&cid=1254736177088&menu=ultiDatos&idp=1254735976608) via [ineAtlas.data](https://github.com/pablogguz/ineAtlas.data).
 
 ## output
 
