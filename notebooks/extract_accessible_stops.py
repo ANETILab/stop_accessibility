@@ -24,10 +24,6 @@ with open(
     subgraphs = pickle.load(fp)
 
 accessible_stops = {k: list(v[1]) for k, v in subgraphs.items()}
-if opts.city == "paris":
-    accessible_stops = {
-        str(k): [str(int(i)) for i in v] for k, v in accessible_stops.items()
-    }
 with open(
     f"../data/stops/{opts.city}/{opts.data_version}/accessible_stops.json", "w"
 ) as fp:
