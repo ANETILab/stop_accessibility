@@ -173,9 +173,10 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
   - this one is based on Maté Mizsák's work, which has two outputs:
     - stops_with_centralities.csv
     - 10_minute_walbetclus.pkl
-      - this one is a [pickled](https://docs.python.org/3/library/pickle.html) Python object with the following structure: `dict[str, tuple[list, set[str]]]`
+      - this one is a [pickled](https://docs.python.org/3/library/pickle.html) Python object with the following structure: `dict[str, tuple[list[tuple[list[str], int]], set[str]]]`
       - the dictionary key is a stop ID, the first element of the tuple is a list of routes accessible within 10 minutes (with the exact time required), and the set is a set of stop IDs accessible from the the given stop.
       - the `data/stops/<CITY>/accessible_stops.json` is an extracted form of the set from the `10_minute_walbetclus.pkl`, with the structure of `dict[str, list[str]]]`
+      - the list, the first element of the value tuple, describes the possible routes to the accessible stops with a time needed to travel the given route
 - [CRS](https://en.wikipedia.org/wiki/Spatial_reference_system), with meter as unit used, for the distance calculations. For each city/country a specific ones should be used, these are read from the [data/crs.yaml](data/crs.yaml) file.
   - for Hungary it is the [Egységes Országos Vetület](https://hu.wikipedia.org/wiki/Egys%C3%A9ges_orsz%C3%A1gos_vet%C3%BClet), also known as [EPSG:23700](https://epsg.io/23700)
   - if needed, you can change it, by modifying the values for every city
