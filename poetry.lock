@@ -1991,6 +1991,18 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "python-xz"
+version = "0.5.0"
+description = "Pure Python implementation of the XZ file format with random access support"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "python-xz-0.5.0.tar.gz", hash = "sha256:a188f0436e811455f1bda61dce9dbe6f0fc1430334bff9f5afd0e668bb354774"},
+    {file = "python_xz-0.5.0-py3-none-any.whl", hash = "sha256:b32a3fa2653cf92c4088b10827995c5ab2c3a74319e5e54c143e3e914a24385f"},
+]
+
+[[package]]
 name = "pytz"
 version = "2024.2"
 description = "World timezone definitions, modern and historical"
@@ -2923,4 +2935,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "3.11.*"
-content-hash = "a9bb6a5c9acb3227bd1d7d88d845f293e6d794762b94e6f42c46d4b92280e819"
+content-hash = "af11d538c2ddb92c995249487f29513963e7f462857891a305dd6721fe50551a"
