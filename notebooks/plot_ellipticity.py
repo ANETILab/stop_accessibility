@@ -233,6 +233,36 @@ def plot_stops(
     return fig, ax
 
 
+def plot_histogram(
+    data: gpd.GeoDataFrame,
+    palette: str = "RdYlBu_r",
+) -> tuple[plt.Figure, plt.Axes]:
+    bins = np.arange(0, 1.01, 0.05)
+    data["hue"] = pd.cut(
+        data["ellipticity"],
+        bins=bins,
+        right=False,
+        include_lowest=True,
+    )
+    fig, ax = plt.subplots(figsize=(6, 6), layout="constrained")
+    sns.histplot(
+        data.sort_values("ellipticity"),
+        x="ellipticity",
+        palette=palette,
+        edgecolor=".3",
+        linewidth=0.5,
+        bins=bins,
+        hue="hue",
+        alpha=1,
+        ax=ax,
+        legend=False,
+    )
+    ax.margins(0, 0.05)
+    ax.set_xlabel("Elipticity", fontsize=15)
+    ax.set_ylabel("Count", fontsize=15)
+    return fig, ax
+
+
 if __name__ == "__main__":
     import argparse
 
@@ -280,6 +310,18 @@ if __name__ == "__main__":
     for i in ["png"]:
         fig.savefig(
             f"../output/{opts.city}/{opts.data_version}/ellipticity_jenks.{i}",
+            dpi=300,
+            facecolor="white",
+            pad_inches=0,
+            metadata=config["metadata"][i],
+        )
+
+    fig, ax = plot_histogram(
+        gpd.clip(to_plot, boundary_polygon).query("ellipticity.notna()")
+    )
+    for i in ["png"]:
+        fig.savefig(
+            f"../output/{opts.city}/{opts.data_version}/ellipticity_histogram.{i}",
             dpi=300,
             facecolor="white",
             pad_inches=0,
