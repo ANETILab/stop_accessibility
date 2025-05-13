@@ -244,7 +244,7 @@ def plot_histogram(
         right=False,
         include_lowest=True,
     )
-    fig, ax = plt.subplots(figsize=(6, 6), layout="constrained")
+    fig, ax = plt.subplots(figsize=(6, 4), layout="constrained")
     sns.histplot(
         data.sort_values("ellipticity"),
         x="ellipticity",
