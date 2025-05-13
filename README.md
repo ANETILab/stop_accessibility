@@ -194,6 +194,7 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 
 - [Paavo – Open data by postal code area](https://stat.fi/org/avoindata/paikkatietoaineistot/paavo_en.html)
   - https://stat.fi/tup/paavo/paavon_aineistokuvaukset_en.html
+  - the data is [available](https://stat.fi/org/lainsaadanto/copyright_en.html) under CC-BY 4.0.
 
 #### Spain
 
