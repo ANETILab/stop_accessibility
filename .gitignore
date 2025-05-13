@@ -2,6 +2,16 @@ __pycache__/
 cache/
 .mypy_cache
 output/*
+!output/budapest
+output/budapest/*
+!output/helsinki
+output/helsinki/*
+!output/madrid
+output/madrid/*
+
+!output/budapest/isochrones_walk_1_15.*
+!output/helsinki/isochrones_walk_1_15.*
+!output/madrid/isochrones_walk_1_15.*
 
 .vscode/*
 !.vscode/kanban.json
