@@ -18,13 +18,13 @@ OptionParser.new do |opts|
     end
 end.parse!
 
-%x(osmium tags-filter -o data/osm/#{options[:city]}/admin.xml data/osm/#{options[:city]}/#{options[:pbf]} r/boundary=administrative --overwrite)
-%x(osmium tags-filter -o data/osm/#{options[:city]}/admin_8.xml data/osm/#{options[:city]}/admin.xml r/admin_level=8 --overwrite)
-%x(osmium tags-filter -o data/osm/#{options[:city]}/boundary.xml data/osm/#{options[:city]}/admin_8.xml r/name=#{options[:name]} -t --overwrite)
-%x(osmium export data/osm/#{options[:city]}/boundary.xml -o data/osm/#{options[:city]}/boundary.geojson -f geojson --attributes type,id --overwrite)
+%x(osmium tags-filter -o ../data/osm/#{options[:city]}/admin.xml ../data/osm/#{options[:city]}/#{options[:pbf]} r/boundary=administrative --overwrite)
+%x(osmium tags-filter -o ../data/osm/#{options[:city]}/admin_8.xml ../data/osm/#{options[:city]}/admin.xml r/admin_level=8 --overwrite)
+%x(osmium tags-filter -o ../data/osm/#{options[:city]}/boundary.xml ../data/osm/#{options[:city]}/admin_8.xml r/name=#{options[:name]} -t --overwrite)
+%x(osmium export ../data/osm/#{options[:city]}/boundary.xml -o ../data/osm/#{options[:city]}/boundary.geojson -f geojson --attributes type,id --overwrite)
 
 if options[:delete_intermediate]
-    File.delete "data/osm/#{options[:city]}/admin.xml"
-    File.delete "data/osm/#{options[:city]}/admin_8.xml"
-    File.delete "data/osm/#{options[:city]}/boundary.xml"
+    File.delete "../data/osm/#{options[:city]}/admin.xml"
+    File.delete "../data/osm/#{options[:city]}/admin_8.xml"
+    File.delete "../data/osm/#{options[:city]}/boundary.xml"
 end
