@@ -89,6 +89,9 @@ if __name__ == "__main__":
 
     from common import load_isochrones
 
+    with open("../data/essential_amenities.yaml", "r") as fp:
+        amenitiy_categories = list(yaml.safe_load(fp).keys())
+
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "--city",
@@ -109,6 +112,7 @@ if __name__ == "__main__":
     amenities = prepare_amenities(opts.city)
 
     aciwa = count_amenities_in_walk_accessibility(isochrones, amenities)
+    aciwa["total"] = aciwa[amenitiy_categories].sum(axis=1)
 
     path = f"../output/{opts.city}/{opts.data_version}"
     aciwa.to_csv(f"{path}/amenity_counts_in_accessibility.csv", index=False)
@@ -117,6 +121,7 @@ if __name__ == "__main__":
     sgfw["stop_id"] = sgfw["stop_id"].apply(str)
 
     acipta = count_amenities_in_public_transport_accessibility(sgfw, amenities)
+    acipta["total"] = acipta[amenitiy_categories].sum(axis=1)
     acipta.to_csv(
         f"{path}/amenity_counts_in_public_transport_accessibility.csv",
         index=False,
