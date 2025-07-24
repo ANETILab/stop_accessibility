@@ -1,0 +1,20 @@
+name = "calculate accessibility"
+uuid = "8d116592-fc68-46c0-82fe-7af25035a086"
+authors = ["pintergreg <pintergreg@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+GLM = "38e38edf-8417-5370-95a0-9cbb8c7f171a"
+PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+RegressionTables = "d519eb52-b820-54da-95a6-98e1306fdade"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+
+[compat]
+CSV = "0.10.15"
+DataFrames = "1.7.0"
+GLM = "1.9.0"
+PrettyTables = "2.4.0"
+RegressionTables = "0.7.8"
+Statistics = "1.11.1"

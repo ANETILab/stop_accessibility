@@ -37,7 +37,7 @@ SPDX-FileCopyrightText = "Instituto Nacional de Estadística"
 SPDX-License-Identifier = "CC-BY-4.0"
 
 [[annotations]]
-path = ["**/.gitignore", "CITATION.cff", "plotting_config.yaml", "pyproject.toml", "poetry.lock", ".python-version"]
+path = ["**/.gitignore", "CITATION.cff", "plotting_config.yaml", "pyproject.toml", "Project.toml", "Manifest.toml", "poetry.lock", ".python-version"]
 precedence = "override"
 SPDX-FileCopyrightText = "2025 Gergő Pintér"
 SPDX-License-Identifier = "0BSD"
