@@ -7,7 +7,7 @@ SPDX-FileCopyrightText = "2025 Gergő Pintér"
 SPDX-License-Identifier = "BSD-2-Clause"
 
 [[annotations]]
-path = ["README.md", "data/stops/**/README.md", ".github/*.png", "output/**/isochrones*", "data/crs.yaml", "data/stops/**/stops_test.csv"]
+path = ["README.md", "data/**/README.md", ".github/*.png", "output/**/isochrones*", "data/crs.yaml", "data/stops/**/stops_test.csv", "data/essential_amenities.yaml"]
 precedence = "override"
 SPDX-FileCopyrightText = "2025 Gergő Pintér"
 SPDX-License-Identifier = "CC-BY-4.0"
