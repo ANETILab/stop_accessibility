@@ -1,7 +1,7 @@
 version = 1
 
 [[annotations]]
-path = ["src/**", "notebooks/*.py", "notebooks/*.ipynb", "notebooks/*.rb", "data/download_from_server.rb"]
+path = ["src/**", "notebooks/*.py", "notebooks/*.ipynb", "notebooks/*.rb", "notebooks/approximate_gini/budapest_from_property_price.ipynb", "data/download_from_server.rb"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Gergő Pintér"
 SPDX-License-Identifier = "BSD-2-Clause"
