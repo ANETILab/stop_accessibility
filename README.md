@@ -24,8 +24,8 @@ Geofabrik, with the smallest possible unit:
 - [Budapest](https://download.geofabrik.de/europe/hungary.html)
 - [Helsinki](https://download.geofabrik.de/europe/finland.html)
 - [Madrid](https://download.geofabrik.de/europe/spain/madrid.html)
-- [Paris](https://download.geofabrik.de/europe/france/ile-de-france.html)
-- [Rotterdam](https://download.geofabrik.de/europe/netherlands/zuid-holland.html)
+<!-- - [Paris](https://download.geofabrik.de/europe/france/ile-de-france.html) -->
+<!-- - [Rotterdam](https://download.geofabrik.de/europe/netherlands/zuid-holland.html) -->
 
 ## accessibility area output schema
 
@@ -51,10 +51,10 @@ NB: geometries are shortened in the sample above, consequently not valid
 ```
 ruby filter.rb --city budapest --name Budapest --pbf hungary-20250123.osm.pbf --delete-intermediate
 ruby filter.rb --city madrid --name Madrid --pbf madrid-latest.osm.pbf --delete-intermediate
-ruby filter.rb --city rotterdam --name Rotterdam --pbf zuid-holland-latest.osm.pbf --delete-intermediate
-ruby filter.rb --city paris --name Paris --pbf ile-de-france-latest.osm.pbf --delete-intermediate
 ruby filter.rb --city helsinki --name Helsinki --pbf finland-latest.osm.pbf --delete-intermediate
 ```
+<!-- ruby filter.rb --city rotterdam --name Rotterdam --pbf zuid-holland-latest.osm.pbf --delete-intermediate -->
+<!-- ruby filter.rb --city paris --name Paris --pbf ile-de-france-latest.osm.pbf --delete-intermediate -->
 
 ## calculate stop distance from the city center
 
