@@ -25,6 +25,12 @@ SPDX-FileCopyrightText = "OpenStreetMap contributors"
 SPDX-License-Identifier = "ODbL-1.0"
 
 [[annotations]]
+path = ["data/statistics/hungary/*.csv", "data/statistics/budapest/*.csv"]
+precedence = "override"
+SPDX-FileCopyrightText = "Hungarian Central Statistical Office (www.ksh.hu)"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
 path = ["data/statistics/finland/*", "data/statistics/helsinki/**/*"]
 precedence = "override"
 SPDX-FileCopyrightText = "Statistics Finland"
