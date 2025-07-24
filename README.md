@@ -171,13 +171,13 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 flowchart TD
     gini_bud[Approximate Gini from property price for Budapest]
     gini_hel[Approximate Gini for Helsinki]
-    socioecon[Enrich indicators with socioeconomic status]
+    socioecon[Enrich stop indicators with socioeconomic status]
     regressions[Run regressions]
 
-    gtfs[GTFS]
+    gtfs[(GTFS)]
     network[Build network]
     centrality[Calculae network centralities]
-    osm[OSM]
+    osm[(OSM)]
     valhalla[Build valhalla routing network]
 
     osm --> valhalla
@@ -185,7 +185,6 @@ flowchart TD
     gtfs --> network
     network --> centrality
     network --> stage0
-
 
     gini_bud --> socioecon
     gini_hel --> socioecon
@@ -195,7 +194,7 @@ flowchart TD
     stage2[Calculate ellipticity and accessibility area]
     stage3[Count amenities in accessibility polygons]
     stage4[Determine distance from center]
-    stage5[Merge indicators]
+    stage5[Merge stop indicators]
 
     stage0 --> stage2
     stage1 --> stage2
