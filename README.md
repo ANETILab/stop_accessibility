@@ -167,6 +167,47 @@ The amenities are aggregated to higher-level [categories](data/essential_ameniti
 
 The `pipeline.rb` Ruby script can execute every script for a given city.
 
+```mermaid
+flowchart TD
+    gini_bud[Approximate Gini from property price for Budapest]
+    gini_hel[Approximate Gini for Helsinki]
+    socioecon[Enrich indicators with socioeconomic status]
+    regressions[Run regressions]
+
+    gtfs[GTFS]
+    network[Build network]
+    centrality[Calculae network centralities]
+    osm[OSM]
+    valhalla[Build valhalla routing network]
+
+    osm --> valhalla
+    valhalla --> stage1
+    gtfs --> network
+    network --> centrality
+    network --> stage0
+
+
+    gini_bud --> socioecon
+    gini_hel --> socioecon
+
+    stage0[Extract accessible stops]
+    stage1[Calculate walk accessibility]
+    stage2[Calculate ellipticity and accessibility area]
+    stage3[Count amenities in accessibility polygons]
+    stage4[Determine distance from center]
+    stage5[Merge indicators]
+
+    stage0 --> stage2
+    stage1 --> stage2
+    stage2 --> stage5
+    stage3 --> stage5
+    stage4 --> stage5
+
+    centrality --> stage5
+    stage5 --> socioecon
+    socioecon --> regressions
+```
+
 ### outer sources
 
 - accessible_stops.json
