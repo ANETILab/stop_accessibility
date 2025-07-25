@@ -169,7 +169,6 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 
 ```mermaid
 flowchart TD
-flowchart TD
 
     gini_bud2[Approximate Gini for Budapest from property price]:::gp
     gini_bud[Approximate Gini for Budapest from mobility data]:::zz
