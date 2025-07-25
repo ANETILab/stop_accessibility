@@ -223,11 +223,11 @@ flowchart TD
     stage5 --> socioecon
     socioecon --> regressions
 
-    classDef data fill: #d7aca1, color: black, stroke: black
-    classDef bl fill: #34b6c6, color: black, stroke: black
-    classDef gp fill: #79ad41, color: black, stroke: black
-    classDef mm fill: #4063a3, color: black, stroke: black
-    classDef zz fill: #ddc000, color: black, stroke: black
+    classDef data fill: #e69f00, color: black, stroke: black
+    classDef bl fill: #56b4e9, color: black, stroke: black
+    classDef gp fill: #009e73, color: white, stroke: black
+    classDef zz fill: #f0e442, color: black, stroke: black
+    classDef mm fill: #0071b2, color: white, stroke: black
 
 ```
 
