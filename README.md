@@ -169,42 +169,67 @@ The `pipeline.rb` Ruby script can execute every script for a given city.
 
 ```mermaid
 flowchart TD
-    gini_bud[Approximate Gini from property price for Budapest]
-    gini_hel[Approximate Gini for Helsinki]
-    socioecon[Enrich stop indicators with socioeconomic status]
-    regressions[Run regressions]
+flowchart TD
 
-    gtfs[(GTFS)]
-    network[Build network]
-    centrality[Calculae network centralities]
-    osm[(OSM)]
-    valhalla[Build valhalla routing network]
+    gini_bud2[Approximate Gini for Budapest from property price]:::gp
+    gini_bud[Approximate Gini for Budapest from mobility data]:::zz
+    gini_hel[Approximate Gini for Helsinki]:::zz
+    gini_mad[Process Gini for Madrid]:::zz
+    socioecon[Enrich indicators with socioeconomic status]:::zz
+    regressions[Run regressions]:::bl
+    sp_stat[(Spanish<br>statistical data)]:::data
+    fi_stat[(Finnish<br>statistical data)]:::data
+    tkom[(Temporal population density data)]:::data
 
-    osm --> valhalla
-    valhalla --> stage1
-    gtfs --> network
-    network --> centrality
-    network --> stage0
+    gtfs[(GTFS)]:::data
+    osm[(OSM)]:::data
+    pp[(property price)]:::data
+    network[Build network]:::mm
+    dfs[Calculate shortest route within time limit]:::mm
+    centrality[Calculate network centralities]:::mm
+    valhalla[Build valhalla routing network]:::gp
 
-    gini_bud --> socioecon
-    gini_hel --> socioecon
+    %%stage0[Extract accessible stops]
+    stage1[Calculate walk accessibility]:::gp
+    stage2[Calculate ellipticity and accessibility area]:::gp
+    stage3[Count amenities in accessibility polygons]:::gp
+    stage4[Determine distance from center]:::gp
+    stage5[Merge indicators]:::gp
 
-    stage0[Extract accessible stops]
-    stage1[Calculate walk accessibility]
-    stage2[Calculate ellipticity and accessibility area]
-    stage3[Count amenities in accessibility polygons]
-    stage4[Determine distance from center]
-    stage5[Merge stop indicators]
-
-    stage0 --> stage2
+    %%stage0 --> stage2
     stage1 --> stage2
     stage2 --> stage5
     stage3 --> stage5
     stage4 --> stage5
 
+    osm --> valhalla
+    valhalla --> stage1
+    gtfs --> network
+    network --> centrality
+    network --> dfs
+    dfs --> stage2
+
+    pp --> gini_bud2
+
+    gini_bud --> socioecon
+    fi_stat --> gini_hel
+    gini_hel --> socioecon
+    sp_stat --> gini_mad
+    gini_mad --> socioecon
+    gini_bud2 --> socioecon
+
+    tkom --> gini_bud
+
     centrality --> stage5
     stage5 --> socioecon
     socioecon --> regressions
+
+    classDef data fill: #d7aca1, color: black, stroke: black
+    classDef bl fill: #34b6c6, color: black, stroke: black
+    classDef gp fill: #79ad41, color: black, stroke: black
+    classDef mm fill: #4063a3, color: black, stroke: black
+    classDef zz fill: #ddc000, color: black, stroke: black
+
 ```
 
 ### outer sources
