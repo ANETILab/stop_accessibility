@@ -19,7 +19,7 @@ SPDX-FileCopyrightText = "2025 Máté Mizsák"
 SPDX-License-Identifier = "CC-BY-4.0"
 
 [[annotations]]
-path = ["data/osm/**/boundary*.geojson", "data/geojson/*"]
+path = ["data/osm/**/boundary*.geojson", "data/geojson/*", "data/osm/budapest/budapest_districts_without_margaret_island.geojson"]
 precedence = "override"
 SPDX-FileCopyrightText = "OpenStreetMap contributors"
 SPDX-License-Identifier = "ODbL-1.0"
