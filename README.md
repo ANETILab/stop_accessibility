@@ -309,3 +309,7 @@ The Spanish income data is from [INE. Instituto Nacional de Estadística](https:
 <!-- As this code uses a precompiled Valhalla network from an old, 2023 September OSM snapshot. -->
 - The Budapest isochrones are calculated with an old, 2023 September OSM snapshot.
 - [pyvalhalla](https://github.com/gis-ops/pyvalhalla) in unmaintained in its current form and not compatible with Python 3.12+, so this code requires a special environment with Python 3.11
+
+## Licensing
+
+The file-level licensing information is described in the REUSE.toml accoding to the [REUSE convention](https://reuse.software/)
