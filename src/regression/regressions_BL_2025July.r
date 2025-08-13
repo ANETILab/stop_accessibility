@@ -5,10 +5,8 @@ rm(list=ls())
 # Import libraries
 library(ggplot2)
 library(ggstance)
-#install.packages('stargazer')
 library(stargazer)
 library(dplyr)
-#install.packages('standardize')
 library(standardize)
 library(mosaic)
 
@@ -18,20 +16,20 @@ library(cowplot)
 
 
 # 1. Folder and data
-setwd("g:/Saját meghajtó/Public transport in the 15-minutes city") # I work in a Google Drive folder shard with the group.
-  
+# setwd("g:/Saját meghajtó/Public transport in the 15-minutes city") # I work in a Google Drive folder shard with the group.
+setwd("/home/gergo/NETI/code/stop_accessibility/src/regression")
   bp=read.table("./budapest/bp_socioecon_merged5.csv", header = T, sep=",")
 #  helsinki=read.table("./helsinki/helsinki_socioecon_merged2.csv", header = T, sep=",")
   madrid=read.table("./madrid/madrid_socioecon_merged2.csv", header = T, sep=",")
 
   helsinki=read.table("./helsinki/helsinki_socioecon_merged4.csv", header = T, sep=",")
-    
+
 ls(bp)
 ls(madrid)
 ls(helsinki)
 
 # 2. Generate Access variables
-  
+
 bp <- bp %>%
   mutate(
     cultural_institutions_multimod_d = as.integer(cultural_institutions_multimodal > 0),
@@ -43,7 +41,7 @@ bp <- bp %>%
     restaurants_multimodal_d = as.integer(restaurants_multimodal > 0),
     schools_multimodal_d = as.integer(schools_multimodal > 0),
     services_multimodal_d = as.integer(services_multimodal > 0),
-    
+
     cultural_institutions_walk15_d = as.integer(cultural_institutions_walk15 > 0),
     drugstores_walk15_d = as.integer(drugstores_walk15 > 0),
     groceries_walk15_d = as.integer(groceries_walk15 > 0),
@@ -53,13 +51,13 @@ bp <- bp %>%
     restaurants_walk15_d = as.integer(restaurants_walk15 > 0),
     schools_walk15_d = as.integer(schools_walk15 > 0),
     services_walk15_d = as.integer(services_walk15 > 0),
-    
+
     multimod_sum = cultural_institutions_multimod_d + drugstores_multimodal_d +
       groceries_multimodal_d + healthcare_multimodal_d +
       parks_multimodal_d + religious_organ_multimod_d +
       restaurants_multimodal_d + schools_multimodal_d +
       services_multimodal_d,
-    
+
     walk_sum = cultural_institutions_walk15_d + drugstores_walk15_d +
       groceries_walk15_d + healthcare_walk15_d +
       parks_walk15_d + religious_organizations_walk15_d +
@@ -78,7 +76,7 @@ helsinki <- helsinki %>%
     restaurants_multimodal_d = as.integer(restaurants_multimodal > 0),
     schools_multimodal_d = as.integer(schools_multimodal > 0),
     services_multimodal_d = as.integer(services_multimodal > 0),
-    
+
     cultural_institutions_walk15_d = as.integer(cultural_institutions_walk15 > 0),
     drugstores_walk15_d = as.integer(drugstores_walk15 > 0),
     groceries_walk15_d = as.integer(groceries_walk15 > 0),
@@ -88,13 +86,13 @@ helsinki <- helsinki %>%
     restaurants_walk15_d = as.integer(restaurants_walk15 > 0),
     schools_walk15_d = as.integer(schools_walk15 > 0),
     services_walk15_d = as.integer(services_walk15 > 0),
-    
+
     multimod_sum = cultural_institutions_multimod_d + drugstores_multimodal_d +
       groceries_multimodal_d + healthcare_multimodal_d +
       parks_multimodal_d + religious_organ_multimod_d +
       restaurants_multimodal_d + schools_multimodal_d +
       services_multimodal_d,
-    
+
     walk_sum = cultural_institutions_walk15_d + drugstores_walk15_d +
       groceries_walk15_d + healthcare_walk15_d +
       parks_walk15_d + religious_organizations_walk15_d +
@@ -113,7 +111,7 @@ madrid <- madrid %>%
     restaurants_multimodal_d = as.integer(restaurants_multimodal > 0),
     schools_multimodal_d = as.integer(schools_multimodal > 0),
     services_multimodal_d = as.integer(services_multimodal > 0),
-    
+
     cultural_institutions_walk15_d = as.integer(cultural_institutions_walk15 > 0),
     drugstores_walk15_d = as.integer(drugstores_walk15 > 0),
     groceries_walk15_d = as.integer(groceries_walk15 > 0),
@@ -123,13 +121,13 @@ madrid <- madrid %>%
     restaurants_walk15_d = as.integer(restaurants_walk15 > 0),
     schools_walk15_d = as.integer(schools_walk15 > 0),
     services_walk15_d = as.integer(services_walk15 > 0),
-    
+
     multimod_sum = cultural_institutions_multimod_d + drugstores_multimodal_d +
       groceries_multimodal_d + healthcare_multimodal_d +
       parks_multimodal_d + religious_organ_multimod_d +
       restaurants_multimodal_d + schools_multimodal_d +
       services_multimodal_d,
-    
+
     walk_sum = cultural_institutions_walk15_d + drugstores_walk15_d +
       groceries_walk15_d + healthcare_walk15_d +
       parks_walk15_d + religious_organizations_walk15_d +
@@ -155,16 +153,16 @@ plot(log(bp$distance_betweenness), bp$ellipticity)
   plot(log(madrid$distance_betweenness), madrid$ellipticity)
   plot(log(helsinki$distance_betweenness), helsinki$ellipticity)
 
-plot(bp$stop_lon[bp$distance_betweenness>quantile(bp$distance_betweenness,0.25)], 
+plot(bp$stop_lon[bp$distance_betweenness>quantile(bp$distance_betweenness,0.25)],
      bp$stop_lat[bp$distance_betweenness>quantile(bp$distance_betweenness,0.25)])
 
-plot(madrid$stop_lon[madrid$distance_betweenness>quantile(madrid$distance_betweenness,0.25)], 
+plot(madrid$stop_lon[madrid$distance_betweenness>quantile(madrid$distance_betweenness,0.25)],
      madrid$stop_lat[madrid$distance_betweenness>quantile(madrid$distance_betweenness,0.25)])
 
-plot(helsinki$stop_lon[helsinki$distance_betweenness>quantile(helsinki$distance_betweenness,0.25)], 
+plot(helsinki$stop_lon[helsinki$distance_betweenness>quantile(helsinki$distance_betweenness,0.25)],
      helsinki$stop_lat[helsinki$distance_betweenness>quantile(helsinki$distance_betweenness,0.25)])
 
-  
+
 # 4. regressions
 
 # 4.1 Coefficient plots into Main Taxt
@@ -181,18 +179,22 @@ madrid$gini_diff=madrid$weighted_gini_multi-madrid$weighted_gini_walk
 bp$access_diff=bp$multimod_sum-bp$walk_sum
 madrid$access_diff=madrid$multimod_sum-madrid$walk_sum
 helsinki$access_diff=helsinki$multimod_sum-helsinki$walk_sum
+write.csv(bp, "bp.csv", row.names=TRUE)
+write.csv(madrid, "madrid.csv", row.names=TRUE)
+write.csv(helsinki, "helsinki.csv", row.names=TRUE)
 
-
-bp1_noint=lm(gini_diff ~ 
+bp1_noint=lm(gini_diff ~
                #area+
                gini_walk15+
                area_difference+
                ellipticity+
                distance_betweenness,
              data=bp)
-#summary(bp1_noint)
+sink("lm.txt")
+summary(bp1_noint)
+sink()
 
-bp2_noint=lm(bp$gini_diff_house ~ 
+bp2_noint=lm(bp$gini_diff_house ~
                #area+
                gini_walk15+
                area_difference+
@@ -201,7 +203,7 @@ bp2_noint=lm(bp$gini_diff_house ~
              data=bp)
 #summary(bp2_noint)
 
-helsinki1_noint=lm(gini_diff ~ 
+helsinki1_noint=lm(gini_diff ~
                      #area+
                      weighted_gini_walk+
                      area_difference+
@@ -211,7 +213,7 @@ helsinki1_noint=lm(gini_diff ~
 #summary(helsinki1_noint)
 
 
-madrid1_noint=lm(gini_diff ~ 
+madrid1_noint=lm(gini_diff ~
                    #area+
                    weighted_gini_walk+
                    area_difference+
@@ -220,7 +222,7 @@ madrid1_noint=lm(gini_diff ~
                  data=madrid)
 #summary(madrid1_noint)
 
-bp1a_noint=lm(access_diff ~ 
+bp1a_noint=lm(access_diff ~
                 walk_sum+
                 #area+
                 area_difference+
@@ -229,7 +231,7 @@ bp1a_noint=lm(access_diff ~
               data=bp)
 #summary(bp1a_noint)
 
-helsinki1a_noint=lm(access_diff ~ 
+helsinki1a_noint=lm(access_diff ~
                       walk_sum+
                       #area+
                       area_difference+
@@ -238,7 +240,7 @@ helsinki1a_noint=lm(access_diff ~
                     data=helsinki)
 #summary(helsinki1a_noint)
 
-madrid1a_noint=lm(access_diff ~ 
+madrid1a_noint=lm(access_diff ~
                     walk_sum+
                     #area+
                     area_difference+
@@ -247,16 +249,22 @@ madrid1a_noint=lm(access_diff ~
                   data=madrid)
 #summary(madrid1a_noint)
 
+h1a = helsinki1a_noint
+m1a = madrid1a_noint
+h1 = helsinki1_noint
+m1 = madrid1_noint
+b1a = bp1a_noint
+b1 = bp1_noint
+b2 = bp2_noint
 
-stargazer(helsinki1a_noint, madrid1a_noint, bp1a_noint,
-          helsinki1_noint, madrid1_noint, bp2_noint, bp1_noint,  
+stargazer(h1a, m1a, b1a, h1, m1, b2, b1,
           type="latex",
-          style="aer", 
-          column.labels = c("Helsinki - Access", "Madrid - Access", 
+          style="aer",
+          column.labels = c("Helsinki - Access", "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", 
-                            "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini",
+                            "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_1_noint.tex")
@@ -269,7 +277,7 @@ bp=merge(bp, bp_avg_price, by="stop_id", all.x=T, all.y=F)
 ls(bp_avg_price)
 
 
-bp1_noint_l=lm(gini_diff ~ 
+bp1_noint_l=lm(gini_diff ~
                  gini_walk15+
                  area_difference+
                  ellipticity+
@@ -277,7 +285,7 @@ bp1_noint_l=lm(gini_diff ~
                data=bp[bp$arpu_low_ratio_walk15>
                          median(bp$arpu_low_ratio_walk15),])
 
-bp1_noint_h=lm(gini_diff ~ 
+bp1_noint_h=lm(gini_diff ~
                  gini_walk15+
                  area_difference+
                  ellipticity+
@@ -285,7 +293,7 @@ bp1_noint_h=lm(gini_diff ~
                data=bp[bp$arpu_low_ratio_walk15<
                          median(bp$arpu_low_ratio_walk15),])
 
-bp2_noint_l=lm(gini_diff_house ~ 
+bp2_noint_l=lm(gini_diff_house ~
                  gini_walk15+
                  area_difference+
                  ellipticity+
@@ -293,7 +301,7 @@ bp2_noint_l=lm(gini_diff_house ~
                data=bp[bp$mean_price<
                          median(bp$mean_price, na.rm = T),])
 
-bp2_noint_h=lm(gini_diff_house ~ 
+bp2_noint_h=lm(gini_diff_house ~
                  gini_walk15+
                  area_difference+
                  ellipticity+
@@ -301,7 +309,7 @@ bp2_noint_h=lm(gini_diff_house ~
                data=bp[bp$mean_price>
                          median(bp$mean_price, na.rm = T),])
 
-helsinki1_noint_l=lm(gini_diff ~ 
+helsinki1_noint_l=lm(gini_diff ~
                        weighted_gini_walk+
                        area_difference+
                        ellipticity+
@@ -309,7 +317,7 @@ helsinki1_noint_l=lm(gini_diff ~
                      data=helsinki[helsinki$weighted_med_inc_walk<
                                      median(helsinki$weighted_med_inc_walk),])
 
-helsinki1_noint_h=lm(gini_diff ~ 
+helsinki1_noint_h=lm(gini_diff ~
                        #area+
                        weighted_gini_walk+
                        area_difference+
@@ -318,7 +326,7 @@ helsinki1_noint_h=lm(gini_diff ~
                      data=helsinki[helsinki$weighted_med_inc_walk>
                                      median(helsinki$weighted_med_inc_walk),])
 
-madrid1_noint_l=lm(gini_diff ~ 
+madrid1_noint_l=lm(gini_diff ~
                      #area+
                      weighted_gini_walk+
                      area_difference+
@@ -327,7 +335,7 @@ madrid1_noint_l=lm(gini_diff ~
                    data=madrid[madrid$weighted_net_income_hh_walk<
                                  median(madrid$weighted_net_income_hh_walk),])
 
-madrid1_noint_h=lm(gini_diff ~ 
+madrid1_noint_h=lm(gini_diff ~
                      #area+
                      weighted_gini_walk+
                      area_difference+
@@ -336,7 +344,7 @@ madrid1_noint_h=lm(gini_diff ~
                    data=madrid[madrid$weighted_net_income_hh_walk>
                                  median(madrid$weighted_net_income_hh_walk),])
 
-bp1a_noint_l=lm(access_diff ~ 
+bp1a_noint_l=lm(access_diff ~
                   walk_sum+
                   #area+
                   area_difference+
@@ -345,7 +353,7 @@ bp1a_noint_l=lm(access_diff ~
                 data=bp[bp$mean_price<
                           median(bp$mean_price, na.rm = T),])
 
-bp1a_noint_h=lm(access_diff ~ 
+bp1a_noint_h=lm(access_diff ~
                   walk_sum+
                   #area+
                   area_difference+
@@ -354,7 +362,7 @@ bp1a_noint_h=lm(access_diff ~
                 data=bp[bp$mean_price>
                           median(bp$mean_price, na.rm = T),])
 
-helsinki1a_noint_l=lm(access_diff ~ 
+helsinki1a_noint_l=lm(access_diff ~
                         walk_sum+
                         #area+
                         area_difference+
@@ -363,7 +371,7 @@ helsinki1a_noint_l=lm(access_diff ~
                       data=helsinki[helsinki$weighted_med_inc_walk<
                                       median(helsinki$weighted_med_inc_walk),])
 
-helsinki1a_noint_h=lm(access_diff ~ 
+helsinki1a_noint_h=lm(access_diff ~
                         walk_sum+
                         #area+
                         area_difference+
@@ -372,7 +380,7 @@ helsinki1a_noint_h=lm(access_diff ~
                       data=helsinki[helsinki$weighted_med_inc_walk>
                                       median(helsinki$weighted_med_inc_walk),])
 
-madrid1a_noint_l=lm(access_diff ~ 
+madrid1a_noint_l=lm(access_diff ~
                       walk_sum+
                       #area+
                       area_difference+
@@ -381,7 +389,7 @@ madrid1a_noint_l=lm(access_diff ~
                     data=madrid[madrid$weighted_net_income_hh_walk<
                                   median(madrid$weighted_net_income_hh_walk),])
 
-madrid1a_noint_h=lm(access_diff ~ 
+madrid1a_noint_h=lm(access_diff ~
                       walk_sum+
                       #area+
                       area_difference+
@@ -391,30 +399,43 @@ madrid1a_noint_h=lm(access_diff ~
                                   median(madrid$weighted_net_income_hh_walk),])
 
 
-# Generate regression tables: no interactions decomposed by low-high socio-economic status 
+# Generate regression tables: no interactions decomposed by low-high socio-economic status
 
-stargazer(helsinki1a_noint_l, madrid1a_noint_l, bp1a_noint_l,
-          helsinki1_noint_l, madrid1_noint_l, bp2_noint_l, bp1_noint_l,  
+h1anil = helsinki1a_noint_l
+m1anil = madrid1a_noint_l
+b1anil = bp1a_noint_l
+h1nil = helsinki1_noint_l
+m1nil = madrid1_noint_l
+b2nil = bp2_noint_l
+b1nil = bp1_noint_l
+stargazer(h1anil, m1anil, b1anil, h1nil, m1nil, b2nil, b1nil,
           type="latex",
-          style="aer", 
-          column.labels = c("Helsinki - Access", "Madrid - Access", 
+          style="aer",
+          column.labels = c("Helsinki - Access", "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", 
-                            "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini",
+                            "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_2_noint_low.tex")
 
-stargazer(helsinki1a_noint_h, madrid1a_noint_h, bp1a_noint_h,
-          helsinki1_noint_h, madrid1_noint_h, bp2_noint_h, bp1_noint_h,  
+h1anih = helsinki1a_noint_h
+m1anih = madrid1a_noint_h
+b1anih = bp1a_noint_h
+h1nih = helsinki1_noint_h
+m1nih = madrid1_noint_h
+b2nih = bp2_noint_h
+b1nih = bp1_noint_h
+
+stargazer(h1anih, m1anih, b1anih, h1nih, m1nih, b2nih, b1nih,
           type="latex",
-          style="aer", 
-          column.labels = c("Helsinki - Access", "Madrid - Access", 
+          style="aer",
+          column.labels = c("Helsinki - Access", "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", 
-                            "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini",
+                            "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_3_noint_high.tex")
@@ -477,7 +498,7 @@ budapest_idx <- c(3,6,9,12,15,18)
 
 # Plot function with y-axis labels and vertical text (for Helsinki)
 plot_city_with_y <- function(idx, city_name) {
-  ggplot(allModelFrame_a[idx,]) + 
+  ggplot(allModelFrame_a[idx,]) +
     geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
     geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
     geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
@@ -499,7 +520,7 @@ plot_city_with_y <- function(idx, city_name) {
 
 # Plot function without y-axis labels (Madrid, Budapest)
 plot_city_noy <- function(idx, city_name) {
-  ggplot(allModelFrame_a[idx,]) + 
+  ggplot(allModelFrame_a[idx,]) +
     geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
     geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
     geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
@@ -568,7 +589,7 @@ bp1_idx_g      <- c(4, 8,12, 16, 20, 24)
 
 # Updated plot functions for Gini data
 plot_city_with_y_gini <- function(idx, city_name) {
-  ggplot(allModelFrame_g[idx,]) + 
+  ggplot(allModelFrame_g[idx,]) +
     geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
     geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
     geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
@@ -588,7 +609,7 @@ plot_city_with_y_gini <- function(idx, city_name) {
 }
 
 plot_city_noy_gini <- function(idx, city_name) {
-  ggplot(allModelFrame_g[idx,]) + 
+  ggplot(allModelFrame_g[idx,]) +
     geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
     geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
     geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
@@ -656,7 +677,7 @@ ggsave("Main_custom_legend_plot.png", plot = legend_plot, width = 8, height = 2.
 # 4.2 Regressions with interactions into SI
 
 
-bp1=lm(gini_multimodal-gini_walk15 ~ 
+bp1=lm(gini_multimodal-gini_walk15 ~
         #area+
         gini_walk15+
          area_difference*ellipticity+
@@ -665,7 +686,7 @@ bp1=lm(gini_multimodal-gini_walk15 ~
 #summary(bp1)
 
 
-bp2=lm(gini_house_multimodal-gini_house_walk15 ~ 
+bp2=lm(gini_house_multimodal-gini_house_walk15 ~
         #area+
         gini_walk15+
          area_difference*ellipticity+
@@ -673,15 +694,15 @@ bp2=lm(gini_house_multimodal-gini_house_walk15 ~
         data=bp)
 #summary(bp2)
 
-helsinki1=lm(weighted_gini_multi-weighted_gini_walk ~ 
+helsinki1=lm(weighted_gini_multi-weighted_gini_walk ~
         #area+
         weighted_gini_walk+
           area_difference*ellipticity+
           distance_betweenness*ellipticity,
         data=helsinki)
 #summary(helsinki1)
-  
-madrid1=lm(weighted_gini_multi-weighted_gini_walk ~ 
+
+madrid1=lm(weighted_gini_multi-weighted_gini_walk ~
         #area+
         weighted_gini_walk+
           area_difference*ellipticity+
@@ -691,9 +712,9 @@ madrid1=lm(weighted_gini_multi-weighted_gini_walk ~
 
 
 # 4.2 Access
-  
 
-bp1a=lm(multimod_sum-walk_sum ~ 
+
+bp1a=lm(multimod_sum-walk_sum ~
           walk_sum+
           #area+
          area_difference*ellipticity+
@@ -701,7 +722,7 @@ bp1a=lm(multimod_sum-walk_sum ~
        data=bp)
 #summary(bp1a)
 
-helsinki1a=lm(multimod_sum-walk_sum ~ 
+helsinki1a=lm(multimod_sum-walk_sum ~
                 walk_sum+
                 #area+
                 area_difference*ellipticity+
@@ -709,7 +730,7 @@ helsinki1a=lm(multimod_sum-walk_sum ~
              data=helsinki)
 #summary(helsinki1a)
 
-madrid1a=lm(multimod_sum-walk_sum ~ 
+madrid1a=lm(multimod_sum-walk_sum ~
               walk_sum+
               #area+
               area_difference*ellipticity+
@@ -720,13 +741,13 @@ madrid1a=lm(multimod_sum-walk_sum ~
 
 # Write regression table
 
-stargazer(helsinki1a, madrid1a, bp1a,helsinki1, madrid1, bp2, bp1,  
-          type="latex", 
-          style="aer", 
-          column.labels = c("Helsinki - Access", "Madrid - Access", 
+stargazer(helsinki1a, madrid1a, bp1a,helsinki1, madrid1, bp2, bp1,
+          type="latex",
+          style="aer",
+          column.labels = c("Helsinki - Access", "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini", "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_4.tex")
@@ -769,7 +790,7 @@ helsinki <- helsinki %>%
   )
 
 
-bp1_s=lm(gini_diff_s ~ 
+bp1_s=lm(gini_diff_s ~
          gini_walk15_s+
          area_difference_s +
          ellipticity_s+
@@ -777,55 +798,63 @@ bp1_s=lm(gini_diff_s ~
        data=bp)
 
 
-bp2_s=lm(gini_diff_house_s ~ 
+bp2_s=lm(gini_diff_house_s ~
          gini_walk15_s+
            area_difference_s +
            ellipticity_s+
            distance_betweenness_s,
        data=bp)
 
-helsinki1_s=lm(gini_diff_s ~ 
+helsinki1_s=lm(gini_diff_s ~
          weighted_gini_walk_s+
            area_difference_s +
            ellipticity_s+
            distance_betweenness_s,
        data=helsinki)
 
-madrid1_s=lm(gini_diff_s ~ 
+madrid1_s=lm(gini_diff_s ~
          weighted_gini_walk_s+
            area_difference_s +
            ellipticity_s+
            distance_betweenness_s,
        data=madrid)
 
-bp1a_s=lm(access_diff_s ~ 
+bp1a_s=lm(access_diff_s ~
           walk_sum_s+
             area_difference_s +
             ellipticity_s+
             distance_betweenness_s,
         data=bp)
 
-helsinki1a_s=lm(access_diff_s ~ 
+helsinki1a_s=lm(access_diff_s ~
           walk_sum_s+
             area_difference_s +
             ellipticity_s+
             distance_betweenness_s,
         data=helsinki)
 
-madrid1a_s=lm(access_diff_s ~ 
+madrid1a_s=lm(access_diff_s ~
           walk_sum_s+
             area_difference_s +
             ellipticity_s+
             distance_betweenness_s,
         data=madrid)
 
-stargazer(helsinki1a_s, madrid1a_s, bp1a_s,helsinki1_s, madrid1_s, bp2_s, bp1_s,  
-          type="latex", 
-          style="aer", 
-          column.labels = c("Helsinki - Access", "Madrid - Access", 
+h1as = helsinki1a_s
+m1as = madrid1a_s
+b1as = bp1a_s
+h1s = helsinki1_s
+m1s = madrid1_s
+b1s = bp1_s
+b2s = bp2_s
+
+stargazer(h1as, m1as, b1as,h1s, m1s, b2s, b1s,
+          type="latex",
+          style="aer",
+          column.labels = c("Helsinki - Access", "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini", "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_5_s.tex")
@@ -836,43 +865,43 @@ library(interplot)
 library(patchwork)
 
 
-bp1i=lm(gini_multimodal-gini_walk15 ~ 
+bp1i=lm(gini_multimodal-gini_walk15 ~
          gini_walk15+
          area_difference+
          distance_betweenness*ellipticity,
        data=bp)
 
-bp2i=lm(gini_house_multimodal-gini_house_walk15 ~ 
+bp2i=lm(gini_house_multimodal-gini_house_walk15 ~
          gini_walk15+
          area_difference+
          distance_betweenness*ellipticity,
        data=bp)
 
-helsinki1i=lm(weighted_gini_multi-weighted_gini_walk ~ 
+helsinki1i=lm(weighted_gini_multi-weighted_gini_walk ~
                weighted_gini_walk+
                area_difference+
                distance_betweenness*ellipticity,
              data=helsinki)
 
-madrid1i=lm(weighted_gini_multi-weighted_gini_walk ~ 
+madrid1i=lm(weighted_gini_multi-weighted_gini_walk ~
              weighted_gini_walk+
              area_difference+
              distance_betweenness*ellipticity,
            data=madrid)
 
-bp1ai=lm(multimod_sum-walk_sum ~ 
+bp1ai=lm(multimod_sum-walk_sum ~
           walk_sum+
           area_difference+
           distance_betweenness*ellipticity,
         data=bp)
 
-helsinki1ai=lm(multimod_sum-walk_sum ~ 
+helsinki1ai=lm(multimod_sum-walk_sum ~
                 walk_sum+
                 area_difference+
                 distance_betweenness*ellipticity,
               data=helsinki)
 
-madrid1ai=lm(multimod_sum-walk_sum ~ 
+madrid1ai=lm(multimod_sum-walk_sum ~
               walk_sum+
               area_difference+
               distance_betweenness*ellipticity,
@@ -880,9 +909,9 @@ madrid1ai=lm(multimod_sum-walk_sum ~
 
 
 png("Main_interplot_bp1.png", width=1200, height=1200)
-interplot(m = bp1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = bp1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -894,14 +923,14 @@ interplot(m = bp1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FA
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(G[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
 png("Main_interplot_bp2.png", width=1200, height=1200)
-interplot(m = bp2i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = bp2i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -913,15 +942,15 @@ interplot(m = bp2i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FA
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(G[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
 
 png("Main_interplot_helsinki1.png", width=1200, height=1200)
-interplot(m = helsinki1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = helsinki1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -933,14 +962,14 @@ interplot(m = helsinki1i, var1 = "ellipticity", var2 = "distance_betweenness", h
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(G[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
 png("Main_interplot_madrid1.png", width=1200, height=1200)
-interplot(m = madrid1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = madrid1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -952,15 +981,15 @@ interplot(m = madrid1i, var1 = "ellipticity", var2 = "distance_betweenness", his
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(G[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16))
 dev.off()
 
 
 png("Main_interplot_bp1a.png", width=1200, height=1200)
-interplot(m = bp1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = bp1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -972,15 +1001,15 @@ interplot(m = bp1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=F
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(A[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
 
 png("Main_interplot_helsinki1a.png", width=1200, height=1200)
-interplot(m = helsinki1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = helsinki1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -992,14 +1021,14 @@ interplot(m = helsinki1ai, var1 = "ellipticity", var2 = "distance_betweenness", 
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(A[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
 png("Main_interplot_madrid1a.png", width=1200, height=1200)
-interplot(m = madrid1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T, 
-          steps = 30, 
-          esize = 2, 
+interplot(m = madrid1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
+          steps = 30,
+          esize = 2,
           ercolor = "black")+
   # Change the background
   # theme_bw() +
@@ -1011,14 +1040,14 @@ interplot(m = madrid1ai, var1 = "ellipticity", var2 = "distance_betweenness", hi
   xlab(expression(italic(D[i]))) +
   ylab(expression(paste('Coefficient of ', italic(E[i]), ' on ', italic(A[i]),' by levels of ', italic(D[i]))))+
   theme(axis.title=element_text(size=60),text = element_text(size=60))+
-  theme(plot.title = element_text(face="bold")) + 
+  theme(plot.title = element_text(face="bold")) +
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16))
 dev.off()
 
 
 # 4.6 Consider socio-economic status of walking area - interactions
 
-bp1_l=lm(gini_multimodal-gini_walk15 ~ 
+bp1_l=lm(gini_multimodal-gini_walk15 ~
            #area+
            gini_walk15+
            area_difference*ellipticity+
@@ -1026,7 +1055,7 @@ bp1_l=lm(gini_multimodal-gini_walk15 ~
          data=bp[bp$arpu_low_ratio_walk15>
                    median(bp$arpu_low_ratio_walk15),])
 
-bp1_h=lm(gini_multimodal-gini_walk15 ~ 
+bp1_h=lm(gini_multimodal-gini_walk15 ~
            #area+
            gini_walk15+
            area_difference*ellipticity+
@@ -1034,7 +1063,7 @@ bp1_h=lm(gini_multimodal-gini_walk15 ~
          data=bp[bp$arpu_low_ratio_walk15<
                    median(bp$arpu_low_ratio_walk15),])
 
-bp2_l=lm(gini_house_multimodal-gini_house_walk15 ~ 
+bp2_l=lm(gini_house_multimodal-gini_house_walk15 ~
            #area+
            gini_walk15+
            area_difference*ellipticity+
@@ -1042,7 +1071,7 @@ bp2_l=lm(gini_house_multimodal-gini_house_walk15 ~
          data=bp[bp$mean_price<
                    median(bp$mean_price, na.rm = T),])
 
-bp2_h=lm(gini_house_multimodal-gini_house_walk15 ~ 
+bp2_h=lm(gini_house_multimodal-gini_house_walk15 ~
            #area+
            gini_walk15+
            area_difference*ellipticity+
@@ -1050,7 +1079,7 @@ bp2_h=lm(gini_house_multimodal-gini_house_walk15 ~
          data=bp[bp$mean_price>
                    median(bp$mean_price, na.rm = T),])
 
-helsinki1_l=lm(weighted_gini_multi-weighted_gini_walk ~ 
+helsinki1_l=lm(weighted_gini_multi-weighted_gini_walk ~
                  #area+
                  weighted_gini_walk+
                  area_difference*ellipticity+
@@ -1058,7 +1087,7 @@ helsinki1_l=lm(weighted_gini_multi-weighted_gini_walk ~
                data=helsinki[helsinki$weighted_med_inc_walk<
                                median(helsinki$weighted_med_inc_walk),])
 
-helsinki1_h=lm(weighted_gini_multi-weighted_gini_walk ~ 
+helsinki1_h=lm(weighted_gini_multi-weighted_gini_walk ~
                  #area+
                  weighted_gini_walk+
                  area_difference*ellipticity+
@@ -1066,7 +1095,7 @@ helsinki1_h=lm(weighted_gini_multi-weighted_gini_walk ~
                data=helsinki[helsinki$weighted_med_inc_walk>
                                median(helsinki$weighted_med_inc_walk),])
 
-madrid1_l=lm(weighted_gini_multi-weighted_gini_walk ~ 
+madrid1_l=lm(weighted_gini_multi-weighted_gini_walk ~
                #area+
                weighted_gini_walk+
                area_difference*ellipticity+
@@ -1074,7 +1103,7 @@ madrid1_l=lm(weighted_gini_multi-weighted_gini_walk ~
              data=madrid[madrid$weighted_net_income_hh_walk<
                            median(madrid$weighted_net_income_hh_walk),])
 
-madrid1_h=lm(weighted_gini_multi-weighted_gini_walk ~ 
+madrid1_h=lm(weighted_gini_multi-weighted_gini_walk ~
                #area+
                weighted_gini_walk+
                area_difference*ellipticity+
@@ -1082,7 +1111,7 @@ madrid1_h=lm(weighted_gini_multi-weighted_gini_walk ~
              data=madrid[madrid$weighted_net_income_hh_walk>
                            median(madrid$weighted_net_income_hh_walk),])
 
-bp1a_l=lm(multimod_sum-walk_sum ~ 
+bp1a_l=lm(multimod_sum-walk_sum ~
             walk_sum+
             #area+
             area_difference*ellipticity+
@@ -1090,7 +1119,7 @@ bp1a_l=lm(multimod_sum-walk_sum ~
           data=bp[bp$mean_price<
                     median(bp$mean_price, na.rm = T),])
 
-bp1a_h=lm(multimod_sum-walk_sum ~ 
+bp1a_h=lm(multimod_sum-walk_sum ~
             walk_sum+
             #area+
             area_difference*ellipticity+
@@ -1098,7 +1127,7 @@ bp1a_h=lm(multimod_sum-walk_sum ~
           data=bp[bp$mean_price>
                     median(bp$mean_price, na.rm = T),])
 
-helsinki1a_l=lm(multimod_sum-walk_sum ~ 
+helsinki1a_l=lm(multimod_sum-walk_sum ~
                   walk_sum+
                   #area+
                   area_difference*ellipticity+
@@ -1106,7 +1135,7 @@ helsinki1a_l=lm(multimod_sum-walk_sum ~
                 data=helsinki[helsinki$weighted_med_inc_walk<
                                 median(helsinki$weighted_med_inc_walk),])
 
-helsinki1a_h=lm(multimod_sum-walk_sum ~ 
+helsinki1a_h=lm(multimod_sum-walk_sum ~
                   walk_sum+
                   #area+
                   area_difference*ellipticity+
@@ -1114,7 +1143,7 @@ helsinki1a_h=lm(multimod_sum-walk_sum ~
                 data=helsinki[helsinki$weighted_med_inc_walk>
                                 median(helsinki$weighted_med_inc_walk),])
 
-madrid1a_l=lm(multimod_sum-walk_sum ~ 
+madrid1a_l=lm(multimod_sum-walk_sum ~
                 walk_sum+
                 #area+
                 area_difference*ellipticity+
@@ -1122,7 +1151,7 @@ madrid1a_l=lm(multimod_sum-walk_sum ~
               data=madrid[madrid$weighted_net_income_hh_walk<
                             median(madrid$weighted_net_income_hh_walk),])
 
-madrid1a_h=lm(multimod_sum-walk_sum ~ 
+madrid1a_h=lm(multimod_sum-walk_sum ~
                 walk_sum+
                 #area+
                 area_difference*ellipticity+
@@ -1130,31 +1159,37 @@ madrid1a_h=lm(multimod_sum-walk_sum ~
               data=madrid[madrid$weighted_net_income_hh_walk>
                             median(madrid$weighted_net_income_hh_walk),])
 
-stargazer(helsinki1a_l, madrid1a_l, bp1a_l,
-          helsinki1_l, madrid1_l, bp2_l, bp1_l,  
-          type="latex", 
-          style="aer", 
-          column.labels = c("Helsinki - Access", 
-                            "Madrid - Access", 
+h1al = helsinki1a_l
+m1al = madrid1a_l
+b1al = bp1a_l
+stargazer(h1al, m1al, b1al, helsinki1_l, madrid1_l, bp2_l, bp1_l,
+          type="latex",
+          style="aer",
+          column.labels = c("Helsinki - Access",
+                            "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", 
-                            "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini",
+                            "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_6_low.tex")
 
 
-stargazer(helsinki1a_h, madrid1a_h, bp1a_h,
-          helsinki1_h, madrid1_h, bp2_h, bp1_h,  
-          type="latex", 
-          style="aer", 
-          column.labels = c("Helsinki - Access", 
-                            "Madrid - Access", 
+h1ah = helsinki1a_h
+m1ah = madrid1a_h
+b1ah = bp1a_h
+h1h = helsinki1_h
+m1h = madrid1_h
+stargazer(h1ah, m1ah, b1ah, h1h, m1h, bp2_h, bp1_h,
+          type="latex",
+          style="aer",
+          column.labels = c("Helsinki - Access",
+                            "Madrid - Access",
                             "BP - Access",
-                            "Helsinki - Gini", 
-                            "Madrid - Gini", 
-                            "BP residential - Gini", 
+                            "Helsinki - Gini",
+                            "Madrid - Gini",
+                            "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
           out="SI_Reg_7_high.tex")
@@ -1170,19 +1205,19 @@ plot_city_corr <- function(data, vars, filename) {
   df <- data[, vars]
   df <- na.omit(df)
   corr_mat <- cor(df, use = "complete.obs")
-  
+
   png(filename, width = 800, height = 600)
-  corrplot::corrplot(corr_mat, method = "color", type = "upper", 
+  corrplot::corrplot(corr_mat, method = "color", type = "upper",
                      tl.col = "black", tl.srt = 45)
   dev.off()
 }
 
 # Variables for each city
-vars_bp <- c("access_diff","gini_diff", "gini_diff_house", "walk_sum", "gini_walk15", 
+vars_bp <- c("access_diff","gini_diff", "gini_diff_house", "walk_sum", "gini_walk15",
              "area_difference", "ellipticity", "distance_betweenness")
-vars_he<- c("access_diff","gini_diff", "walk_sum","weighted_gini_walk", 
+vars_he<- c("access_diff","gini_diff", "walk_sum","weighted_gini_walk",
             "area_difference", "ellipticity", "distance_betweenness")
-vars_ma <- c("access_diff","gini_diff", "walk_sum","weighted_gini_walk", 
+vars_ma <- c("access_diff","gini_diff", "walk_sum","weighted_gini_walk",
              "area_difference", "ellipticity", "distance_betweenness")
 
 # Create plots
