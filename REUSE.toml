@@ -13,6 +13,12 @@ SPDX-FileCopyrightText = "2025 Gergő Pintér"
 SPDX-License-Identifier = "CC-BY-4.0"
 
 [[annotations]]
+path = ["notebooks/zsofi/*", "notebooks/approximate_gini/helsinki.ipynb"]
+precedence = "override"
+SPDX-FileCopyrightText = "2025 Zsófia Zádor"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
 path = ["data/stops/**/stops_with_centrality.csv", "data/stops/**/accessible_stops.json", "data/stops/**/*.pkl", "data/stops/**/*.pkl.gz", "data/stops/**/*.pkl.xz"]
 precedence = "override"
 SPDX-FileCopyrightText = "2025 Máté Mizsák"
