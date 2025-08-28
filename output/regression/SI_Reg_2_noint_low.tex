@@ -1,0 +1,27 @@
+\begin{tabular}{lrrrrrrr}
+\toprule
+                      & \multicolumn{1}{c}{Helsinki} & \multicolumn{1}{c}{Madrid} & \multicolumn{1}{c}{Budapest} & \multicolumn{1}{c}{Helsinki} & \multicolumn{1}{c}{Madrid} &                         \multicolumn{2}{c}{Budapest}                        \\ 
+\cmidrule(lr){2-2} \cmidrule(lr){3-3} \cmidrule(lr){4-4} \cmidrule(lr){5-5} \cmidrule(lr){6-6} \cmidrule(lr){7-8} 
+                      &                                \multicolumn{3}{c}{Access}                                &                  \multicolumn{2}{c}{Gini}                 & \multicolumn{1}{c}{Residential Gini} & \multicolumn{1}{c}{Experienced Gini} \\ 
+\cmidrule(lr){2-4} \cmidrule(lr){5-6} \cmidrule(lr){7-7} \cmidrule(lr){8-8} 
+                      &                          (1) &                        (2) &                          (3) &                          (4) &                        (5) &                                  (6) &                                  (7) \\ 
+\midrule
+(Intercept)           &                     6.869*** &                   4.450*** &                     8.158*** &                     0.156*** &                   6.343*** &                             -0.015** &                             0.070*** \\ 
+                      &                      (0.123) &                    (0.115) &                      (0.099) &                      (0.005) &                    (0.300) &                              (0.005) &                              (0.003) \\ 
+walk\_sum             &                    -0.835*** &                  -0.515*** &                    -0.895*** &                              &                            &                                      &                                      \\ 
+                      &                      (0.014) &                    (0.011) &                      (0.008) &                              &                            &                                      &                                      \\ 
+area\_difference      &                     0.084*** &                   0.095*** &                     0.071*** &                     -0.000** &                   0.038*** &                               -0.000 &                               -0.000 \\ 
+                      &                      (0.005) &                    (0.007) &                      (0.007) &                      (0.000) &                    (0.009) &                              (0.000) &                              (0.000) \\ 
+ellipticity           &                     0.478*** &                     0.138* &                    -0.422*** &                       -0.002 &                     -0.148 &                             0.017*** &                             0.010*** \\ 
+                      &                      (0.088) &                    (0.060) &                      (0.072) &                      (0.001) &                    (0.079) &                              (0.004) &                              (0.002) \\ 
+distance\_betweenness &                    -0.028*** &                   -0.015** &                    -0.018*** &                     -0.000** &                  -0.051*** &                            -0.001*** &                            -0.004*** \\ 
+                      &                      (0.005) &                    (0.005) &                      (0.004) &                      (0.000) &                    (0.008) &                              (0.000) &                              (0.000) \\ 
+weighted\_gini\_walk  &                              &                            &                              &                    -0.483*** &                  -0.194*** &                                      &                                      \\ 
+                      &                              &                            &                              &                      (0.015) &                    (0.009) &                                      &                                      \\ 
+gini\_walk15          &                              &                            &                              &                              &                            &                             0.208*** &                            -0.278*** \\ 
+                      &                              &                            &                              &                              &                            &                              (0.029) &                              (0.012) \\ 
+\midrule
+$N$                   &                        1,348 &                      2,604 &                        2,015 &                        1,348 &                      2,604 &                                2,015 &                                2,213 \\ 
+$R^2$                 &                        0.745 &                      0.474 &                        0.872 &                        0.465 &                      0.190 &                                0.059 &                                0.239 \\ 
+\bottomrule
+\end{tabular}
