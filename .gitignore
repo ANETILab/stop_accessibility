@@ -1,3 +1,5 @@
+.directory
+
 __pycache__/
 cache/
 .mypy_cache
