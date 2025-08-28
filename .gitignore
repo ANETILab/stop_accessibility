@@ -29,6 +29,13 @@ output/madrid/*/*
 !output/helsinki/isochrones_walk_1_15.*
 !output/madrid/isochrones_walk_1_15.*
 
+!output/regression
+output/regression/*
+!output/regression/*.csv
+!output/regression/*.tex
+!output/regression/*.txt
+
+
 .vscode/*
 !.vscode/kanban.json
 
