@@ -8,22 +8,19 @@ output/*
 output/budapest/*
 !output/budapest/*/
 output/budapest/*/*
-!output/budapest/*/walk15_stop_gini.csv
-!output/budapest/*/multimodal_stop_gini.csv
+!output/budapest/*/stop_socioecon.csv
 
 !output/helsinki
 output/helsinki/*
 !output/helsinki/*/
 output/helsinki/*/*
-!output/helsinki/*/walk15_stop_gini.csv
-!output/helsinki/*/multimodal_stop_gini.csv
+!output/helsinki/*/stop_socioecon.csv
 
 !output/madrid
 output/madrid/*
 !output/madrid/*/
 output/madrid/*/*
-!output/madrid/*/walk15_stop_gini.csv
-!output/madrid/*/multimodal_stop_gini.csv
+!output/madrid/*/stop_socioecon.csv
 
 !output/budapest/isochrones_walk_1_15.*
 !output/helsinki/isochrones_walk_1_15.*
