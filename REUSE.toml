@@ -1,13 +1,13 @@
 version = 1
 
 [[annotations]]
-path = ["src/**", "notebooks/*.py", "notebooks/*.ipynb", "notebooks/*.rb", "notebooks/approximate_gini/budapest_from_property_price.ipynb", "notebooks/approximate_gini/map_stop_area_to_statistic_unit.py", "data/download_from_server.rb"]
+path = ["src/**", "notebooks/*.py", "notebooks/*.ipynb", "notebooks/*.rb", "notebooks/approximate_gini/budapest_from_property_price.ipynb", "notebooks/approximate_gini/map_stop_area_to_statistic_unit.py", "notebooks/approximate_gini/madrid.ipynb", "data/download_from_server.rb"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Gergő Pintér"
 SPDX-License-Identifier = "BSD-2-Clause"
 
 [[annotations]]
-path = ["output/regression/*"]
+path = ["output/regression/*", "output/**/**/stop_socioecon.csv"]
 precedence = "override"
 SPDX-FileCopyrightText = "2025 Zsófia Zádor, Gergő Pintér, Máté Mizsák, Bence Kovács, Balázs Lengyel"
 SPDX-License-Identifier = "CC-BY-4.0"
