@@ -17,7 +17,7 @@ argparser.add_argument(
 )
 opts = argparser.parse_args()
 
-path = f"../output/{opts.city}/{opts.version}"
+path = f"../output/{opts.city}/{opts.data_version}"
 
 indicators = pd.read_csv(f"{path}/merged.csv")
 
