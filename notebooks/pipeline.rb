@@ -52,11 +52,15 @@ if options[:stages].include? "6"
     puts "[stage 6] plot_indicators"
     %x(poetry run python plot_ellipticity.py --city #{options[:city]} --data-version "#{options[:data_version]}")
 end
+if options[:stages].include? "7"
+    # puts "[stage 7] prepare gini and income"
+    # %x(poetry run python enrich_indicators_with_socioeconomics.py --city #{options[:city]} --data-version "#{options[:data_version]}")
+end
 if options[:stages].include? "8"
     puts "[stage 8] enrich indicators with ses"
     %x(poetry run python enrich_indicators_with_socioeconomics.py --city #{options[:city]} --data-version "#{options[:data_version]}")
 end
 if options[:stages].include? "9"
-    # puts "[stage 9] run regressions"
-    # %x(julia plot_ellipticity.py --city #{options[:city]} --data-version "#{options[:data_version]}")
+    puts "[stage 9] run regressions"
+    %x(julia regressions.jl")
 end
