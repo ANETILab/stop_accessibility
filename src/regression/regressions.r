@@ -1,6 +1,4 @@
-# Regressions for the "Public transport in the 15-minutes city" paper - April 2025
-
-# Import libraries
+# Regressions for the "Public transport in the 15-minutes city" paper
 library(ggplot2)
 library(ggstance)
 library(stargazer)
@@ -14,9 +12,6 @@ library(cowplot)
 library(here)
 pdf(file = here("output/regression/", "Rplots.pdf"))
 
-# 1. Folder and data
-# setwd("g:/Saját meghajtó/Public transport in the 15-minutes city") # I work in a Google Drive folder shard with the group.
-# setwd("/home/gergo/NETI/code/stop_accessibility/src/regression")
   # bp=read.table("./budapest/bp_socioecon_merged5.csv", header = T, sep=",")
   # madrid=read.table("./madrid/madrid_socioecon_merged2.csv", header = T, sep=",")
   # helsinki=read.table("./helsinki/helsinki_socioecon_merged4.csv", header = T, sep=",")
