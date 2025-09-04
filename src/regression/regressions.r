@@ -1,7 +1,5 @@
 # Regressions for the "Public transport in the 15-minutes city" paper - April 2025
 
-rm(list=ls())
-
 # Import libraries
 library(ggplot2)
 library(ggstance)
@@ -14,18 +12,23 @@ library(gridExtra)
 library(cowplot)
 
 library(here)
-
+pdf(file = here("output/regression/", "Rplots.pdf"))
 
 # 1. Folder and data
 # setwd("g:/Saját meghajtó/Public transport in the 15-minutes city") # I work in a Google Drive folder shard with the group.
-setwd("/home/gergo/NETI/code/stop_accessibility/src/regression")
+# setwd("/home/gergo/NETI/code/stop_accessibility/src/regression")
   # bp=read.table("./budapest/bp_socioecon_merged5.csv", header = T, sep=",")
   # madrid=read.table("./madrid/madrid_socioecon_merged2.csv", header = T, sep=",")
   # helsinki=read.table("./helsinki/helsinki_socioecon_merged4.csv", header = T, sep=",")
 
-bp=read.table("../../output/budapest/20250428/indicators_with_ses.csv", header = T, sep=",")
-madrid=read.table("../../output/madrid/20250415/indicators_with_ses.csv", header = T, sep=",")
-helsinki=read.table("../../output/helsinki/20250428/indicators_with_ses.csv", header = T, sep=",")
+# bp=read.table("../../output/budapest/20250428/indicators_with_ses.csv", header = T, sep=",")
+# madrid=read.table("../../output/madrid/20250415/indicators_with_ses.csv", header = T, sep=",")
+# helsinki=read.table("../../output/helsinki/20250428/indicators_with_ses.csv", header = T, sep=",")
+
+bp=read.table(here("output/budapest/20250428/", "indicators_with_ses.csv"), header = T, sep=",")
+madrid=read.table(here("output/madrid/20250415/", "indicators_with_ses.csv"), header = T, sep=",")
+helsinki=read.table(here("output/helsinki/20250428/", "indicators_with_ses.csv"), header = T, sep=",")
+
 
 ls(bp)
 ls(madrid)
@@ -186,9 +189,9 @@ madrid$gini_diff=madrid$weighted_gini_multi-madrid$weighted_gini_walk
 bp$access_diff=bp$multimod_sum-bp$walk_sum
 madrid$access_diff=madrid$multimod_sum-madrid$walk_sum
 helsinki$access_diff=helsinki$multimod_sum-helsinki$walk_sum
-write.csv(bp, "bp.csv", row.names=TRUE)
-write.csv(madrid, "madrid.csv", row.names=TRUE)
-write.csv(helsinki, "helsinki.csv", row.names=TRUE)
+write.csv(bp, here("output/regression/", "bp.csv"), row.names=TRUE)
+write.csv(madrid, here("output/regression/", "madrid.csv"), row.names=TRUE)
+write.csv(helsinki, here("output/regression/", "helsinki.csv"), row.names=TRUE)
 
 bp1_noint=lm(gini_diff ~
                #area+
@@ -197,7 +200,7 @@ bp1_noint=lm(gini_diff ~
                ellipticity+
                distance_betweenness,
              data=bp)
-sink("lm.txt")
+sink(here("output/regression/", "lm.txt"))
 summary(bp1_noint)
 sink()
 
@@ -274,7 +277,7 @@ stargazer(h1a, m1a, b1a, h1, m1, b2, b1,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_1_noint.tex")
+          out=here("output/regression/", "SI_Reg_1_noint.tex"))
 
 
 # Regression decomposition without interaction term
@@ -425,7 +428,7 @@ stargazer(h1anil, m1anil, b1anil, h1nil, m1nil, b2nil, b1nil,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_2_noint_low.tex")
+          out=here("output/regression/", "SI_Reg_2_noint_low.tex"))
 
 h1anih = helsinki1a_noint_h
 m1anih = madrid1a_noint_h
@@ -445,7 +448,7 @@ stargazer(h1anih, m1anih, b1anih, h1nih, m1nih, b2nih, b1nih,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_3_noint_high.tex")
+          out=here("output/regression/", "SI_Reg_3_noint_high.tex"))
 
 
 
@@ -496,7 +499,7 @@ allModelFrame_a$ypos=c(15, 15, 15,
                        3,3,3
 )
 allModelFrame_a$shape=16
-write.csv(allModelFrame_a, file = "allModelFrame_a.csv", row.names = TRUE)
+write.csv(allModelFrame_a, file = here("output/regression/", "allModelFrame_a.csv"), row.names = TRUE)
 
 # Define index subsets for each city
 helsinki_idx <- c(1,4,7,10,13,16)
@@ -557,8 +560,7 @@ plot_bud <- plot_city_noy(budapest_idx, "Budapest")
 final_plot <- cowplot::plot_grid(plot_hel, plot_mad, plot_bud, nrow = 1, align = "h")
 
 # Save to file
-ggsave("Main_coeff_combined_plot_access_noint.png", plot = final_plot, width = 16, height = 8)
-
+ggsave(here("output/regression/", "Main_coeff_combined_plot_access_noint.png"), plot = final_plot, width = 16, height = 8)
 
 
 # Gini
@@ -646,7 +648,7 @@ plot_bp1_g <- plot_city_noy_gini(bp1_idx_g, "Budapest (experienced)")
 final_plot_gini <- cowplot::plot_grid(plot_hel_g, plot_mad_g, plot_bp2_g, plot_bp1_g, nrow = 1, align = "h")
 
 # Save to file
-ggsave("Main_coeff_combined_plot_gini_noint.png", plot = final_plot_gini, width = 20, height = 8)
+ggsave(here("output/regression/", "Main_coeff_combined_plot_gini_noint.png"), plot = final_plot_gini, width = 20, height = 8)
 
 
 # Legend
@@ -678,7 +680,7 @@ legend_plot <- ggplot(legend_data) +
   theme_void() +
   theme(legend.position = "none")
 
-ggsave("Main_custom_legend_plot.png", plot = legend_plot, width = 8, height = 2.5)
+ggsave(here("output/regression/", "Main_custom_legend_plot.png"), plot = legend_plot, width = 8, height = 2.5)
 
 
 # 4.2 Regressions with interactions into SI
@@ -757,7 +759,7 @@ stargazer(helsinki1a, madrid1a, bp1a,helsinki1, madrid1, bp2, bp1,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_4.tex")
+          out=here("output/regression/", "SI_Reg_4.tex"))
 
 # 4.3 Standardized regressions with interactions
 
@@ -864,7 +866,7 @@ stargazer(h1as, m1as, b1as,h1s, m1s, b2s, b1s,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_5_s.tex")
+          out=here("output/regression/", "SI_Reg_5_s.tex"))
 
 # 4.4 Interplots
 
@@ -915,7 +917,7 @@ madrid1ai=lm(multimod_sum-walk_sum ~
             data=madrid)
 
 
-png("Main_interplot_bp1.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_bp1.png"), width=1200, height=1200)
 interplot(m = bp1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -934,7 +936,7 @@ interplot(m = bp1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FA
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
-png("Main_interplot_bp2.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_bp2.png"), width=1200, height=1200)
 interplot(m = bp2i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -954,7 +956,7 @@ interplot(m = bp2i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FA
 dev.off()
 
 
-png("Main_interplot_helsinki1.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_helsinki1.png"), width=1200, height=1200)
 interplot(m = helsinki1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -973,7 +975,7 @@ interplot(m = helsinki1i, var1 = "ellipticity", var2 = "distance_betweenness", h
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
-png("Main_interplot_madrid1.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_madrid1.png"), width=1200, height=1200)
 interplot(m = madrid1i, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -993,7 +995,7 @@ interplot(m = madrid1i, var1 = "ellipticity", var2 = "distance_betweenness", his
 dev.off()
 
 
-png("Main_interplot_bp1a.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_bp1a.png"), width=1200, height=1200)
 interplot(m = bp1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -1013,7 +1015,7 @@ interplot(m = bp1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=F
 dev.off()
 
 
-png("Main_interplot_helsinki1a.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_helsinki1a.png"), width=1200, height=1200)
 interplot(m = helsinki1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -1032,7 +1034,7 @@ interplot(m = helsinki1ai, var1 = "ellipticity", var2 = "distance_betweenness", 
   scale_x_continuous(breaks=c(0,2,4,6,8,10,12,14,16,18,20))
 dev.off()
 
-png("Main_interplot_madrid1a.png", width=1200, height=1200)
+png(here("output/regression/", "Main_interplot_madrid1a.png"), width=1200, height=1200)
 interplot(m = madrid1ai, var1 = "ellipticity", var2 = "distance_betweenness", hist=FALSE, point =T,
           steps = 30,
           esize = 2,
@@ -1180,7 +1182,7 @@ stargazer(h1al, m1al, b1al, helsinki1_l, madrid1_l, bp2_l, bp1_l,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_6_low.tex")
+          out=here("output/regression/", "SI_Reg_6_low.tex"))
 
 
 h1ah = helsinki1a_h
@@ -1199,7 +1201,7 @@ stargazer(h1ah, m1ah, b1ah, h1h, m1h, bp2_h, bp1_h,
                             "BP residential - Gini",
                             "BP experienced - Gini"),
           dep.var.labels.include = F,
-          out="SI_Reg_7_high.tex")
+          out=here("output/regression/", "SI_Reg_7_high.tex"))
 
 
 # 4.7 Correlation plots
@@ -1228,9 +1230,9 @@ vars_ma <- c("access_diff","gini_diff", "walk_sum","weighted_gini_walk",
              "area_difference", "ellipticity", "distance_betweenness")
 
 # Create plots
-plot_city_corr(bp, vars_bp, "SI_bp_corr.png")
-plot_city_corr(helsinki, vars_he, "SI_helsinki_corr.png")
-plot_city_corr(madrid, vars_ma, "SI_madrid_corr.png")
+plot_city_corr(bp, vars_bp, here("output/regression/", "SI_bp_corr.png"))
+plot_city_corr(helsinki, vars_he, here("output/regression/", "SI_helsinki_corr.png"))
+plot_city_corr(madrid, vars_ma, here("output/regression/", "SI_madrid_corr.png"))
 
 
 # 4.8 Variable Statistics
@@ -1241,14 +1243,14 @@ helsinki_sub <- na.omit(helsinki[, vars_he])
 madrid_sub <- na.omit(madrid[, vars_ma])
 
 # Write LaTeX summary tables
-stargazer(bp_sub, type = "latex", out = "SI_summary_bp.tex",
+stargazer(bp_sub, type = "latex", out = here("output/regression/", "SI_summary_bp.tex"),
           title = "Summary Statistics for Budapest",
           summary.stat = c("min", "p25", "median", "mean", "p75", "max", "sd"))
 
-stargazer(helsinki_sub, type = "latex", out = "SI_summary_helsinki.tex",
+stargazer(helsinki_sub, type = "latex", out = here("output/regression/", "SI_summary_helsinki.tex"),
           title = "Summary Statistics for Helsinki",
           summary.stat = c("min", "p25", "median", "mean", "p75", "max", "sd"))
 
-stargazer(madrid_sub, type = "latex", out = "SI_summary_madrid.tex",
+stargazer(madrid_sub, type = "latex", out = here("output/regression/", "SI_summary_madrid.tex"),
           title = "Summary Statistics for Madrid",
           summary.stat = c("min", "p25", "median", "mean", "p75", "max", "sd"))
