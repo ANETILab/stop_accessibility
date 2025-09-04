@@ -12,14 +12,6 @@ library(cowplot)
 library(here)
 pdf(file = here("output/regression/", "Rplots.pdf"))
 
-  # bp=read.table("./budapest/bp_socioecon_merged5.csv", header = T, sep=",")
-  # madrid=read.table("./madrid/madrid_socioecon_merged2.csv", header = T, sep=",")
-  # helsinki=read.table("./helsinki/helsinki_socioecon_merged4.csv", header = T, sep=",")
-
-# bp=read.table("../../output/budapest/20250428/indicators_with_ses.csv", header = T, sep=",")
-# madrid=read.table("../../output/madrid/20250415/indicators_with_ses.csv", header = T, sep=",")
-# helsinki=read.table("../../output/helsinki/20250428/indicators_with_ses.csv", header = T, sep=",")
-
 bp=read.table(here("output/budapest/20250428/", "indicators_with_ses.csv"), header = T, sep=",")
 madrid=read.table(here("output/madrid/20250415/", "indicators_with_ses.csv"), header = T, sep=",")
 helsinki=read.table(here("output/helsinki/20250428/", "indicators_with_ses.csv"), header = T, sep=",")
