@@ -18,11 +18,13 @@ library(cowplot)
 # 1. Folder and data
 # setwd("g:/Saját meghajtó/Public transport in the 15-minutes city") # I work in a Google Drive folder shard with the group.
 setwd("/home/gergo/NETI/code/stop_accessibility/src/regression")
-  bp=read.table("./budapest/bp_socioecon_merged5.csv", header = T, sep=",")
-#  helsinki=read.table("./helsinki/helsinki_socioecon_merged2.csv", header = T, sep=",")
-  madrid=read.table("./madrid/madrid_socioecon_merged2.csv", header = T, sep=",")
+  # bp=read.table("./budapest/bp_socioecon_merged5.csv", header = T, sep=",")
+  # madrid=read.table("./madrid/madrid_socioecon_merged2.csv", header = T, sep=",")
+  # helsinki=read.table("./helsinki/helsinki_socioecon_merged4.csv", header = T, sep=",")
 
-  helsinki=read.table("./helsinki/helsinki_socioecon_merged4.csv", header = T, sep=",")
+bp=read.table("../../output/budapest/20250428/indicators_with_ses.csv", header = T, sep=",")
+madrid=read.table("../../output/madrid/20250415/indicators_with_ses.csv", header = T, sep=",")
+helsinki=read.table("../../output/helsinki/20250428/indicators_with_ses.csv", header = T, sep=",")
 
 ls(bp)
 ls(madrid)
@@ -489,7 +491,7 @@ allModelFrame_a$ypos=c(15, 15, 15,
                        3,3,3
 )
 allModelFrame_a$shape=16
-
+write.csv(allModelFrame_a, file = "allModelFrame_a.csv", row.names = TRUE)
 
 # Define index subsets for each city
 helsinki_idx <- c(1,4,7,10,13,16)
