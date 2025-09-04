@@ -64,8 +64,12 @@ bp <- bp %>%
       groceries_walk15_d + healthcare_walk15_d +
       parks_walk15_d + religious_organizations_walk15_d +
       restaurants_walk15_d + schools_walk15_d +
-      services_walk15_d
+      services_walk15_d,
+
+    # for compatibility
+    mean_price = walk15_mean_price
   )
+
 
 helsinki <- helsinki %>%
   mutate(
@@ -274,9 +278,9 @@ stargazer(h1a, m1a, b1a, h1, m1, b2, b1,
 
 # Regression decomposition without interaction term
 
-bp_avg_price=read.table("./budapest/stop_property_price.csv", header = T, sep=",")
-bp=merge(bp, bp_avg_price, by="stop_id", all.x=T, all.y=F)
-ls(bp_avg_price)
+# bp_avg_price=read.table("./budapest/stop_property_price.csv", header = T, sep=",")
+# bp=merge(bp, bp_avg_price, by="stop_id", all.x=T, all.y=F)
+# ls(bp_avg_price)
 
 
 bp1_noint_l=lm(gini_diff ~
