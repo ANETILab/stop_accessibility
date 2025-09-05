@@ -9,18 +9,21 @@ output/budapest/*
 !output/budapest/*/
 output/budapest/*/*
 !output/budapest/*/stop_socioecon.csv
+!output/budapest/*/indicators_with_ses.csv
 
 !output/helsinki
 output/helsinki/*
 !output/helsinki/*/
 output/helsinki/*/*
 !output/helsinki/*/stop_socioecon.csv
+!output/helsinki/*/indicators_with_ses.csv
 
 !output/madrid
 output/madrid/*
 !output/madrid/*/
 output/madrid/*/*
 !output/madrid/*/stop_socioecon.csv
+!output/madrid/*/indicators_with_ses.csv
 
 !output/budapest/isochrones_walk_1_15.*
 !output/helsinki/isochrones_walk_1_15.*
