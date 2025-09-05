@@ -855,6 +855,332 @@ stargazer(h1as, m1as, b1as,h1s, m1s, b2s, b1s,
           dep.var.labels.include = F,
           out=here("output/regression/", "SI_Reg_5_s.tex"))
 
+###########
+
+# Standardized variables, broken down to socio-econ groups
+
+bp1_s_l=lm(gini_diff_s ~
+                 gini_walk15_s+
+                 area_difference_s+
+                 ellipticity_s+
+                 distance_betweenness_s,
+               data=bp[bp$arpu_low_ratio_walk15>
+                         median(bp$arpu_low_ratio_walk15),])
+
+bp1_s_h=lm(gini_diff_s ~
+                 gini_walk15_s+
+                 area_difference_s+
+                 ellipticity_s+
+                 distance_betweenness_s,
+               data=bp[bp$arpu_low_ratio_walk15<
+                         median(bp$arpu_low_ratio_walk15),])
+
+bp2_s_l=lm(gini_diff_house_s ~
+                 gini_walk15_s+
+                 area_difference_s+
+                 ellipticity_s+
+                 distance_betweenness_s,
+               data=bp[bp$mean_price<
+                         median(bp$mean_price, na.rm = T),])
+
+bp2_s_h=lm(gini_diff_house_s ~
+                 gini_walk15_s+
+                 area_difference_s+
+                 ellipticity_s+
+                 distance_betweenness_s,
+               data=bp[bp$mean_price>
+                         median(bp$mean_price, na.rm = T),])
+
+helsinki1_s_l=lm(gini_diff_s ~
+                       weighted_gini_walk_s+
+                       area_difference_s+
+                       ellipticity_s+
+                       distance_betweenness_s,
+                     data=helsinki[helsinki$weighted_med_inc_walk<
+                                     median(helsinki$weighted_med_inc_walk),])
+
+helsinki1_s_h=lm(gini_diff_s ~
+                       #area+
+                       weighted_gini_walk_s+
+                       area_difference_s+
+                       ellipticity_s+
+                       distance_betweenness_s,
+                     data=helsinki[helsinki$weighted_med_inc_walk>
+                                     median(helsinki$weighted_med_inc_walk),])
+
+madrid1_s_l=lm(gini_diff_s ~
+                     #area+
+                     weighted_gini_walk_s+
+                     area_difference_s+
+                     ellipticity_s+
+                     distance_betweenness_s,
+                   data=madrid[madrid$weighted_net_income_hh_walk<
+                                 median(madrid$weighted_net_income_hh_walk),])
+
+madrid1_s_h=lm(gini_diff_s ~
+                     #area+
+                     weighted_gini_walk_s+
+                     area_difference_s+
+                     ellipticity_s+
+                     distance_betweenness_s,
+                   data=madrid[madrid$weighted_net_income_hh_walk>
+                                 median(madrid$weighted_net_income_hh_walk),])
+
+bp1a_s_l=lm(access_diff_s ~
+                  walk_sum_s+
+                  #area+
+                  area_difference_s+
+                  ellipticity_s+
+                  distance_betweenness_s,
+                data=bp[bp$mean_price<
+                          median(bp$mean_price, na.rm = T),])
+
+bp1a_s_h=lm(access_diff_s ~
+                  walk_sum_s+
+                  #area+
+                  area_difference_s+
+                  ellipticity_s+
+                  distance_betweenness_s,
+                data=bp[bp$mean_price>
+                          median(bp$mean_price, na.rm = T),])
+
+helsinki1a_s_l=lm(access_diff_s ~
+                        walk_sum_s+
+                        #area+
+                        area_difference_s+
+                        ellipticity_s+
+                        distance_betweenness_s,
+                      data=helsinki[helsinki$weighted_med_inc_walk<
+                                      median(helsinki$weighted_med_inc_walk),])
+
+helsinki1a_s_h=lm(access_diff_s ~
+                        walk_sum_s+
+                        #area+
+                        area_difference_s+
+                        ellipticity_s+
+                        distance_betweenness_s,
+                      data=helsinki[helsinki$weighted_med_inc_walk>
+                                      median(helsinki$weighted_med_inc_walk),])
+
+madrid1a_s_l=lm(access_diff_s ~
+                      walk_sum_s+
+                      #area+
+                      area_difference_s+
+                      ellipticity_s+
+                      distance_betweenness_s,
+                    data=madrid[madrid$weighted_net_income_hh_walk<
+                                  median(madrid$weighted_net_income_hh_walk),])
+
+madrid1a_s_h=lm(access_diff_s ~
+                      walk_sum_s+
+                      #area+
+                      area_difference_s+
+                      ellipticity_s+
+                      distance_betweenness_s,
+                    data=madrid[madrid$weighted_net_income_hh_walk>
+                                  median(madrid$weighted_net_income_hh_walk),])
+
+
+
+# Create coeff plots from standardized coeffs
+
+# List of model names (add or remove names as needed)
+model_names <- c("helsinki1a_s", "madrid1a_s", "bp1a_s",
+                 "helsinki1_s", "madrid1_s", "bp2_s", "bp1_s",
+                 "helsinki1a_s_l", "madrid1a_s_l", "bp1a_s_l",
+                 "helsinki1_s_l", "madrid1_s_l", "bp2_s_l", "bp1_s_l",
+                 "helsinki1a_s_h", "madrid1a_s_h", "bp1a_s_h",
+                 "helsinki1_s_h", "madrid1_s_h", "bp2_s_h", "bp1_s_h")
+
+# Function to create intercept and ellipticity data frames
+extract_coeffs <- function(model_name) {
+  t <- summary(get(model_name))$coefficients
+  assign(paste0("area_", model_name),
+         data.frame(Variable = "Area Difference", Coefficient = t[3,1], SE = t[3,2]),
+         envir = .GlobalEnv)
+  assign(paste0("ellip_", model_name),
+         data.frame(Variable = "Ellipticity", Coefficient = t[4,1], SE = t[4,2]),
+         envir = .GlobalEnv)
+}
+
+# Apply function to each model
+lapply(model_names, extract_coeffs)
+
+
+# Access
+allModelFrame_a_s <- data.frame(rbind(
+  area_helsinki1a_s, area_madrid1a_s, area_bp1a_s,
+  area_helsinki1a_s_l, area_madrid1a_s_l, area_bp1a_s_l,
+  area_helsinki1a_s_h, area_madrid1a_s_h, area_bp1a_s_h,
+  ellip_helsinki1a_s, ellip_madrid1a_s, ellip_bp1a_s,
+  ellip_helsinki1a_s_l, ellip_madrid1a_s_l, ellip_bp1a_s_l,
+  ellip_helsinki1a_s_h, ellip_madrid1a_s_h, ellip_bp1a_s_h))
+
+
+allModelFrame_a_s$col = "grey"
+allModelFrame_a_s$col[c(4:6,13:15)] = "darkblue"  # low
+allModelFrame_a_s$col[c(7:9,16:18)] = "orange" # high
+allModelFrame_a_s$fcol <- factor(allModelFrame_a_s$col)
+allModelFrame_a_s$ypos=c(15, 15, 15,
+                       13, 13, 13,
+                       11, 11, 11,
+                       7, 7, 7,
+                       5, 5, 5,
+                       3,3,3
+)
+allModelFrame_a_s$shape=16
+
+
+# Define index subsets for each city
+helsinki_idx_s <- c(1,4,7,10,13,16)
+madrid_idx_s   <- c(2,5,8,11,14,17)
+budapest_idx_s <- c(3,6,9,12,15,18)
+
+# Plot function with y-axis labels and vertical text (for Helsinki)
+plot_city_with_y <- function(idx, city_name) {
+  ggplot(allModelFrame_a_s[idx,]) +
+    geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
+    geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
+    geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
+    geom_linerangeh(aes(xmin = Coefficient - 1.96 * SE,
+                        xmax = Coefficient + 1.96 * SE,
+                        y = ypos,
+                        colour = fcol), size = 3) +
+    scale_colour_manual(values = c("grey" = "grey", "darkblue" = "darkblue", "orange" = "orange")) +
+    scale_y_continuous(labels = c("Area Difference", "Ellipticity"), breaks = c(13, 5)) +
+    labs(title = city_name, x = NULL, y = NULL) +
+    theme_bw() +
+    theme(panel.grid = element_blank(),
+          plot.title = element_text(hjust = 0.5, size = 28),
+          axis.text.x = element_text(size = 24),
+          axis.text.y = element_text(size = 24, angle = 90, hjust = 0.5),
+          legend.position = "none")
+}
+
+
+# Plot function without y-axis labels (Madrid, Budapest)
+plot_city_noy <- function(idx, city_name) {
+  ggplot(allModelFrame_a_s[idx,]) +
+    geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
+    geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
+    geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
+    geom_linerangeh(aes(xmin = Coefficient - 1.96 * SE,
+                        xmax = Coefficient + 1.96 * SE,
+                        y = ypos,
+                        colour = fcol), size = 3) +
+    scale_colour_manual(values = c("grey" = "grey", "darkblue" = "darkblue", "orange" = "orange")) +
+    scale_y_continuous(breaks = c(13, 5), labels = NULL) +
+    labs(title = city_name, x = NULL, y = NULL) +
+    theme_bw() +
+    theme(panel.grid = element_blank(),
+          plot.title = element_text(hjust = 0.5, size = 28),
+          axis.text.x = element_text(size = 16),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          legend.position = "none")
+}
+
+
+# Generate the three city plots
+plot_hel <- plot_city_with_y(helsinki_idx_s, "Helsinki")
+plot_mad <- plot_city_noy(madrid_idx_s, "Madrid")
+plot_bud <- plot_city_noy(budapest_idx_s, "Budapest")
+
+# Combine plots
+final_plot <- cowplot::plot_grid(plot_hel, plot_mad, plot_bud, nrow = 1, align = "h")
+
+# Save to file
+ggsave(here("output/regression/", "Main_coeff_combined_plot_access_area_s.png"), plot = final_plot, width = 16, height = 8)
+
+# Gini
+allModelFrame_g_s <- data.frame(rbind(
+  area_helsinki1_s, area_madrid1_s, area_bp2_s, area_bp1_s,
+  area_helsinki1_s_l, area_madrid1_s_l, area_bp2_s_l, area_bp1_s_l,
+  area_helsinki1_s_h, area_madrid1_s_h, area_bp2_s_h, area_bp1_s_h,
+  ellip_helsinki1_s, ellip_madrid1_s, ellip_bp2_s, ellip_bp1_s,
+  ellip_helsinki1_s_l, ellip_madrid1_s_l, ellip_bp2_s_l, ellip_bp1_s_l,
+  ellip_helsinki1_s_h, ellip_madrid1_s_h, ellip_bp2_s_h, ellip_bp1_s_h))
+
+
+# Add metadata to Gini model frame
+allModelFrame_g_s$col <- "grey"
+allModelFrame_g_s$col[c(5:8,17:20)] <- "darkblue"  # low
+allModelFrame_g_s$col[c(9:12,21:24)] <- "orange"   # high
+allModelFrame_g_s$fcol <- factor(allModelFrame_g_s$col)
+
+# Matching Access layout
+allModelFrame_g_s$ypos <- c(
+  15, 15, 15, 15,
+  13, 13, 13, 13,
+  11, 11, 11, 11,
+  7, 7, 7, 7,
+  5, 5, 5, 5,
+  3, 3, 3, 3
+)
+allModelFrame_g_s$shape <- 16
+
+# Define index subsets (4 cities: helsinki, madrid, bp2, bp1)
+helsinki_idx_g_s <- c(1, 5, 9, 13, 17, 21)
+madrid_idx_g_s   <- c(2, 6,10, 14, 18, 22)
+bp2_idx_g_s      <- c(3, 7,11, 15, 19, 23)
+bp1_idx_g_s      <- c(4, 8,12, 16, 20, 24)
+
+# Updated plot functions for Gini data
+plot_city_with_y_gini <- function(idx, city_name) {
+  ggplot(allModelFrame_g_s[idx,]) +
+    geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
+    geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
+    geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
+    geom_linerangeh(aes(xmin = Coefficient - 1.96 * SE,
+                        xmax = Coefficient + 1.96 * SE,
+                        y = ypos,
+                        colour = fcol), size = 3) +
+    scale_colour_manual(values = c("grey" = "grey", "darkblue" = "darkblue", "orange" = "orange")) +
+    scale_y_continuous(labels = c("Area Difference", "Ellipticity"), breaks = c(13, 5)) +
+    labs(title = city_name, x = NULL, y = NULL) +
+    theme_bw() +
+    theme(panel.grid = element_blank(),
+          plot.title = element_text(hjust = 0.5, size = 28),
+          axis.text.x = element_text(size = 24),
+          axis.text.y = element_text(size = 24, angle = 90, hjust = 0.5),
+          legend.position = "none")
+}
+
+plot_city_noy_gini <- function(idx, city_name) {
+  ggplot(allModelFrame_g_s[idx,]) +
+    geom_vline(xintercept = 0, linetype = "solid", size = 4, colour = "gray80") +
+    geom_hline(yintercept = 9, linetype = "dotted", size = 4, colour = "gray80") +
+    geom_point(aes(x = Coefficient, y = ypos, colour = fcol), shape = 16, size = 12) +
+    geom_linerangeh(aes(xmin = Coefficient - 1.96 * SE,
+                        xmax = Coefficient + 1.96 * SE,
+                        y = ypos,
+                        colour = fcol), size = 3) +
+    scale_colour_manual(values = c("grey" = "grey", "darkblue" = "darkblue", "orange" = "orange")) +
+    scale_y_continuous(breaks = c(13, 5), labels = NULL) +
+    labs(title = city_name, x = NULL, y = NULL) +
+    theme_bw() +
+    theme(panel.grid = element_blank(),
+          plot.title = element_text(hjust = 0.5, size = 28),
+          axis.text.x = element_text(size = 16),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          legend.position = "none")
+}
+
+# Generate the four city plots
+plot_hel_g <- plot_city_with_y_gini(helsinki_idx_g_s, "Helsinki")
+plot_mad_g <- plot_city_noy_gini(madrid_idx_g_s, "Madrid")
+plot_bp2_g <- plot_city_noy_gini(bp2_idx_g_s, "Budapest (residential)")
+plot_bp1_g <- plot_city_noy_gini(bp1_idx_g_s, "Budapest (experienced)")
+
+# Combine plots
+final_plot_gini <- cowplot::plot_grid(plot_hel_g, plot_mad_g, plot_bp2_g, plot_bp1_g, nrow = 1, align = "h")
+
+# Save to file
+ggsave(here("output/regression/", "Main_coeff_combined_plot_gini_area_s.png"), plot = final_plot_gini, width = 20, height = 8)
+
+
+
 # 4.4 Interplots
 
 library(interplot)
